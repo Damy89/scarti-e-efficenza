@@ -532,7 +532,6 @@
       return isNaN(num) ? 0 : num;
     }
 
-    // Helper per convertire stringhe di data (ISO o Italiane) in oggetti Date validi
     function parseCustomDate(dStr) {
       if (!dStr) return new Date();
       if (dStr.includes('/')) {
@@ -813,12 +812,11 @@
       return new Date(date.setDate(diff));
     }
 
-    // NUOVO CALCOLO CORRETTO OPERATORE CON LOGICA TURNO RIGOROSA
+    // LOGICA DI ROTAZIONE SETTIMANALE CORRETTA E ROBUSTA
     function getOperatorForTurnoAndDate(dateStr, turnoStr, firstStartDateStr, initialOps) {
       const dDate = parseCustomDate(dateStr);
       const startDate = parseCustomDate(firstStartDateStr);
 
-      // Determina il turno (1, 2 o 3) in base al testo presente nella colonna turno
       let tNorm = 1;
       const tLower = turnoStr.toString().toLowerCase();
       if (tLower.includes('secondo') || tLower.includes('2') || tLower.includes('2°')) {
@@ -836,13 +834,15 @@
       const startMonday = getMonday(startDate);
       const currentMonday = getMonday(dDate);
 
+      // Calcolo differenza in settimane intere in modo affidabile
       const diffTime = currentMonday.getTime() - startMonday.getTime();
-      const diffWeeks = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 7));
+      const diffWeeks = Math.round(diffTime / (1000 * 60 * 60 * 24 * 7));
       const weekIndex = diffWeeks >= 0 ? diffWeeks : 0;
 
+      // Sequenza iniziale dei 3 operatori [T1, T2, T3]
       let ops = [initialOps.t1, initialOps.t2, initialOps.t3];
       
-      // Rotazione settimanale: T1 -> T3, T2 -> T1, T3 -> T2
+      // Ad ogni lunedì successivo, avanzano di una posizione (T1 -> T3, T3 -> T2, T2 -> T1)
       for (let w = 0; w < weekIndex; w++) {
         let nextOps = [ops[2], ops[0], ops[1]];
         ops = nextOps;
@@ -941,7 +941,7 @@
 
     function updateShiftRotation() {
       renderEfficiencyAndShifts();
-      alert("Rotazione turni e operatore aggiornati con successo!");
+      alert("Rotazione turni e operatori aggiornata con successo!");
     }
 
     function renderTop5Rankings() {
