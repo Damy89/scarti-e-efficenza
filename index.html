@@ -55,6 +55,9 @@
         <button id="switchViewEffBtn" onclick="switchView('efficiency')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 px-3 rounded-lg transition border border-slate-700">
           <i class="fa-solid fa-gauge-high text-emerald-400"></i> Efficienza & Turni
         </button>
+        <button id="switchViewOperatorsBtn" onclick="switchView('operators')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 px-3 rounded-lg transition border border-slate-700">
+          <i class="fa-solid fa-medal text-yellow-400"></i> Operatori Mese
+        </button>
 
         <label for="jsonFileInput" class="cursor-pointer bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium py-2 px-3 rounded-lg border border-slate-700 transition hidden sm:flex items-center space-x-1.5" title="Carica file JSON Produzione">
           <i class="fa-solid fa-file-import text-brand-500"></i>
@@ -498,6 +501,64 @@
       </div>
     </div>
 
+    <!-- ================= VIEW 4: OPERATORS MONTHLY RANKING ================= -->
+    <div id="viewOperators" class="hidden space-y-6">
+      <div class="bg-gradient-to-r from-slate-900 to-amber-700 text-white p-6 rounded-2xl shadow-md flex justify-between items-center">
+        <div>
+          <h2 class="text-lg font-bold flex items-center gap-2">
+            <i class="fa-solid fa-medal text-yellow-400"></i> Classifica Efficienza Operatori del Mese
+          </h2>
+          <p class="text-xs text-slate-200 mt-1">Confronto delle prestazioni mensili tra i tre operatori in base ai turni assegnati</p>
+        </div>
+      </div>
+
+      <!-- Filtro Mese -->
+      <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <h3 class="text-sm font-bold text-slate-800">Seleziona Mese di Riferimento</h3>
+          <p class="text-xs text-slate-500">Analizza la produttività e le perdite dell'operatore nel mese scelto</p>
+        </div>
+        <div class="flex items-center gap-3 w-full sm:w-auto">
+          <select id="filterMonth" class="bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs text-slate-800 font-medium">
+            <option value="ALL">Tutti i mesi (Intero Dataset)</option>
+            <option value="2026-10" selected>Ottobre 2026</option>
+            <option value="2026-11">Novembre 2026</option>
+            <option value="2026-12">Dicembre 2026</option>
+          </select>
+          <button onclick="renderOperatorsMonthlyRanking()" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold text-xs py-2.5 px-4 rounded-lg shadow transition whitespace-nowrap">
+            Aggiorna Classifica
+          </button>
+        </div>
+      </section>
+
+      <!-- Tabella Classifica Operatori -->
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="p-4 sm:p-5 border-b border-slate-200 bg-amber-50/50 flex justify-between items-center">
+          <h3 class="text-sm font-bold text-amber-950 uppercase tracking-wider flex items-center gap-2">
+            <i class="fa-solid fa-award text-amber-600"></i> Podio Efficienza Operatori
+          </h3>
+          <span class="text-xs font-semibold bg-amber-100 text-amber-800 px-2.5 py-1 rounded-lg">Ordinato per Minore Perdita Temporale</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead class="bg-slate-100 text-slate-700 font-semibold">
+              <tr>
+                <th class="p-3 border-b border-slate-200 w-16 text-center">Posizione</th>
+                <th class="p-3 border-b border-slate-200">Operatore</th>
+                <th class="p-3 border-b border-slate-200 text-right">Turni Lavorati</th>
+                <th class="p-3 border-b border-slate-200 text-right">Pezzi Totali (Pz + Scarti + Ril.)</th>
+                <th class="p-3 border-b border-slate-200 text-right">Ore Teoriche (h)</th>
+                <th class="p-3 border-b border-slate-200 text-right">Ore Dichiarate (h)</th>
+                <th class="p-3 border-b border-slate-200 text-right font-bold text-amber-800">Scostamento / Perdita (Minuti)</th>
+              </tr>
+            </thead>
+            <tbody id="operatorsRankingTableBody" class="divide-y divide-slate-100 text-slate-700"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
   </main>
 
   <footer class="bg-white border-t border-slate-200 py-4 mt-auto">
@@ -599,10 +660,12 @@
       document.getElementById('viewHome').classList.add('hidden');
       document.getElementById('viewTop5').classList.add('hidden');
       document.getElementById('viewEfficiency').classList.add('hidden');
+      document.getElementById('viewOperators').classList.add('hidden');
 
       document.getElementById('switchViewHomeBtn').className = "bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 px-3 rounded-lg transition border border-slate-700";
       document.getElementById('switchViewTop5Btn').className = "bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 px-3 rounded-lg transition border border-slate-700";
       document.getElementById('switchViewEffBtn').className = "bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 px-3 rounded-lg transition border border-slate-700";
+      document.getElementById('switchViewOperatorsBtn').className = "bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 px-3 rounded-lg transition border border-slate-700";
 
       if (viewName === 'home') {
         document.getElementById('viewHome').classList.remove('hidden');
@@ -615,6 +678,10 @@
         document.getElementById('viewEfficiency').classList.remove('hidden');
         document.getElementById('switchViewEffBtn').className = "bg-brand-600 text-white text-xs font-semibold py-2 px-3 rounded-lg transition shadow-sm";
         renderEfficiencyAndShifts();
+      } else if (viewName === 'operators') {
+        document.getElementById('viewOperators').classList.remove('hidden');
+        document.getElementById('switchViewOperatorsBtn').className = "bg-brand-600 text-white text-xs font-semibold py-2 px-3 rounded-lg transition shadow-sm";
+        renderOperatorsMonthlyRanking();
       }
     }
 
@@ -761,6 +828,7 @@
       renderCharts();
       if (currentView === 'top5') renderTop5Rankings();
       if (currentView === 'efficiency') renderEfficiencyAndShifts();
+      if (currentView === 'operators') renderOperatorsMonthlyRanking();
     }
 
     function updateMetrics() {
@@ -812,7 +880,6 @@
       return new Date(date.setDate(diff));
     }
 
-    // LOGICA DI ROTAZIONE SETTIMANALE CORRETTA E ROBUSTA
     function getOperatorForTurnoAndDate(dateStr, turnoStr, firstStartDateStr, initialOps) {
       const dDate = parseCustomDate(dateStr);
       const startDate = parseCustomDate(firstStartDateStr);
@@ -834,15 +901,12 @@
       const startMonday = getMonday(startDate);
       const currentMonday = getMonday(dDate);
 
-      // Calcolo differenza in settimane intere in modo affidabile
       const diffTime = currentMonday.getTime() - startMonday.getTime();
       const diffWeeks = Math.round(diffTime / (1000 * 60 * 60 * 24 * 7));
       const weekIndex = diffWeeks >= 0 ? diffWeeks : 0;
 
-      // Sequenza iniziale dei 3 operatori [T1, T2, T3]
       let ops = [initialOps.t1, initialOps.t2, initialOps.t3];
       
-      // Ad ogni lunedì successivo, avanzano di una posizione (T1 -> T3, T3 -> T2, T2 -> T1)
       for (let w = 0; w < weekIndex; w++) {
         let nextOps = [ops[2], ops[0], ops[1]];
         ops = nextOps;
@@ -851,6 +915,87 @@
       if (tNorm === 1) return ops[0];
       if (tNorm === 2) return ops[1];
       return ops[2];
+    }
+
+    // CLASSIFICA MENSILE OPERATORI
+    function renderOperatorsMonthlyRanking() {
+      const firstDate = document.getElementById('cfgFirstDate').value;
+      const opT1 = document.getElementById('cfgOpT1').value || 'Tizio';
+      const opT2 = document.getElementById('cfgOpT2').value || 'Caio';
+      const opT3 = document.getElementById('cfgOpT3').value || 'Sempronio';
+      const initialOps = { t1: opT1, t2: opT2, t3: opT3 };
+
+      const selectedMonth = document.getElementById('filterMonth').value;
+
+      // Filtra il dataset principale in base al mese selezionato
+      const monthData = parsedData.filter(row => {
+        if (selectedMonth === 'ALL') return true;
+        const dObj = parseCustomDate(row.data);
+        if (isNaN(dObj.getTime())) return false;
+        const yyyyMm = `${dObj.getFullYear()}-${String(dObj.getMonth() + 1).padStart(2, '0')}`;
+        return yyyyMm === selectedMonth;
+      });
+
+      // Raggruppa i dati per operatore
+      const operatorStats = {};
+      [opT1, opT2, opT3].forEach(opName => {
+        operatorStats[opName] = { name: opName, shiftsCount: 0, totalPz: 0, totalTheoreticalHours: 0, totalDeclaredHours: 0 };
+      });
+
+      monthData.forEach(row => {
+        const opName = getOperatorForTurnoAndDate(row.data, row.turno, firstDate, initialOps);
+        if (!operatorStats[opName]) {
+          operatorStats[opName] = { name: opName, shiftsCount: 0, totalPz: 0, totalTheoreticalHours: 0, totalDeclaredHours: 0 };
+        }
+
+        const pzTot = row.pezziBuoni + row.pezziScarto + row.pezziRecupero;
+        const theoHours = (pzTot * row.tempoCicloSec) / 3600;
+
+        operatorStats[opName].shiftsCount += 1;
+        operatorStats[opName].totalPz += pzTot;
+        operatorStats[opName].totalTheoreticalHours += theoHours;
+        operatorStats[opName].totalDeclaredHours += row.oreTotali;
+      });
+
+      const rankingArr = Object.values(operatorStats).map(op => {
+        const lossHours = op.totalDeclaredHours - op.totalTheoreticalHours;
+        const lossMinutes = Math.round(lossHours * 60);
+        return { ...op, lossHours, lossMinutes };
+      });
+
+      // Ordina per minor perdita (più efficiente in alto)
+      rankingArr.sort((a, b) => a.lossMinutes - b.lossMinutes);
+
+      const tbody = document.getElementById('operatorsRankingTableBody');
+      tbody.innerHTML = '';
+
+      if (rankingArr.length === 0 || rankingArr.every(o => o.shiftsCount === 0)) {
+        tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400">Nessun dato di produzione registrato per il mese selezionato.</td></tr>`;
+        return;
+      }
+
+      rankingArr.forEach((op, index) => {
+        const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉';
+        const badgeWinner = index === 0 ? '<span class="ml-2 bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-300"><i class="fa-solid fa-crown text-amber-600 mr-1"></i> Più Efficiente del Mese</span>' : '';
+        
+        const lossBadge = op.lossMinutes > 0 ? 
+          `<span class="font-bold text-rose-600 bg-rose-50 px-2.5 py-1 rounded border border-rose-200">+${op.lossMinutes} min (+${op.lossHours.toFixed(2)} h)</span>` : 
+          `<span class="font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded border border-emerald-200">${op.lossMinutes} min (${op.lossHours.toFixed(2)} h)</span>`;
+
+        tbody.innerHTML += `
+          <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100">
+            <td class="p-3 text-center font-bold text-slate-700 text-sm">${medal}</td>
+            <td class="p-3 font-bold text-slate-900 flex items-center">
+              <i class="fa-solid fa-user-tie text-brand-500 mr-2"></i> ${op.name} ${badgeWinner}
+            </td>
+            <td class="p-3 text-right font-semibold text-slate-700">${op.shiftsCount}</td>
+            <td class="p-3 text-right font-bold text-slate-800">${op.totalPz.toLocaleString('it-IT')} pz</td>
+            <td class="p-3 text-right font-mono text-slate-600">${op.totalTheoreticalHours.toFixed(2)} h</td>
+            <td class="p-3 text-right font-mono font-bold text-slate-900">${op.totalDeclaredHours.toFixed(2)} h</td>
+            <td class="p-3 text-right font-mono whitespace-nowrap">${lossBadge}</td>
+          </tr>
+        `;
+      });
     }
 
     function renderEfficiencyAndShifts() {
