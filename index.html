@@ -2,8 +2,8 @@
 <html lang="it" class="h-full bg-slate-50">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Scarto, Valore & Efficienza Produzione</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Dashboard Scarto, Valore & Efficienza Produzione - Mobile</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome -->
@@ -28,64 +28,60 @@
     }
   </script>
 </head>
-<body class="h-full font-sans text-slate-800 flex flex-col min-h-screen">
+<body class="h-full font-sans text-slate-800 flex flex-col min-h-screen antialiased">
 
-  <!-- Header Top Bar -->
+  <!-- Header Top Bar Ottimizzato Mobile -->
   <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-40 shadow-md">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      
+      <!-- Logo & Title -->
       <div class="flex items-center space-x-3">
-        <div class="bg-brand-500 text-white p-2 rounded-lg flex items-center justify-center shadow-lg">
-          <i class="fa-solid font-bold fa-industry text-xl"></i>
+        <div class="bg-brand-500 text-white p-2 rounded-xl flex items-center justify-center shadow-lg">
+          <i class="fa-solid font-bold fa-industry text-lg"></i>
         </div>
         <div>
-          <h1 class="text-sm sm:text-lg font-bold leading-tight">Analisi Scarto, Valore & Efficienza</h1>
-          <p class="text-[10px] sm:text-xs text-slate-400">Controllo Produzione & DBA</p>
+          <h1 class="text-sm font-bold leading-tight">Analisi Scarto & Efficienza</h1>
+          <p class="text-[10px] text-slate-400">Controllo Produzione & DBA</p>
         </div>
       </div>
 
-      <!-- Action Buttons & Navigation -->
-      <div class="flex items-center space-x-2 sm:space-x-3">
+      <!-- Action Buttons & Navigation Scrolling on Mobile -->
+      <div class="flex items-center space-x-2 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
         <!-- View Switcher -->
-        <button id="switchViewHomeBtn" onclick="switchView('home')" class="bg-brand-600 text-white text-xs font-semibold py-2 px-3 rounded-lg transition shadow-sm">
+        <button id="switchViewHomeBtn" onclick="switchView('home')" class="bg-brand-600 text-white text-xs font-semibold py-2 px-3 rounded-lg transition shadow-sm whitespace-nowrap">
           <i class="fa-solid fa-house"></i> Home
         </button>
-        <button id="switchViewWeeklyBtn" onclick="switchView('weekly')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 px-3 rounded-lg transition border border-slate-700">
-          <i class="fa-solid fa-chart-line text-cyan-400"></i> Andamento Settimanale
+        <button id="switchViewWeeklyBtn" onclick="switchView('weekly')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 px-3 rounded-lg transition border border-slate-700 whitespace-nowrap">
+          <i class="fa-solid fa-chart-line text-cyan-400"></i> Trend
         </button>
-        <button id="switchViewTop5Btn" onclick="switchView('top5')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 px-3 rounded-lg transition border border-slate-700">
+        <button id="switchViewTop5Btn" onclick="switchView('top5')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 px-3 rounded-lg transition border border-slate-700 whitespace-nowrap">
           <i class="fa-solid fa-trophy text-amber-400"></i> Top 5
         </button>
-        <button id="switchViewEffBtn" onclick="switchView('efficiency')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 px-3 rounded-lg transition border border-slate-700">
+        <button id="switchViewEffBtn" onclick="switchView('efficiency')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 px-3 rounded-lg transition border border-slate-700 whitespace-nowrap">
           <i class="fa-solid fa-gauge-high text-emerald-400"></i> Efficienza
         </button>
 
         <!-- Pulsante Caricamento Globale -->
-        <label for="globalFileInput" class="cursor-pointer bg-brand-700 hover:bg-brand-600 text-white text-xs font-semibold py-2 px-3 rounded-lg transition shadow-sm flex items-center space-x-1.5" title="Carica Backup Globale (Produzione + DBA)">
+        <label for="globalFileInput" class="cursor-pointer bg-brand-700 hover:bg-brand-600 text-white text-xs font-semibold py-2 px-3 rounded-lg transition shadow-sm flex items-center space-x-1.5 whitespace-nowrap" title="Carica Backup Globale">
           <i class="fa-solid fa-folder-open text-amber-300"></i>
-          <span>Carica Backup Globale</span>
+          <span>Carica</span>
         </label>
         <input type="file" id="globalFileInput" accept=".json" class="hidden">
 
-        <!-- Pulsanti Import Singoli -->
-        <label for="jsonFileInput" class="cursor-pointer bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium py-2 px-3 rounded-lg border border-slate-700 transition hidden sm:flex items-center space-x-1.5" title="Carica file JSON Produzione">
-          <i class="fa-solid fa-file-import text-brand-500"></i>
-          <span>JSON Prod</span>
-        </label>
-        <input type="file" id="jsonFileInput" accept=".json" class="hidden">
-
-        <label for="anagraficaFileInput" class="cursor-pointer bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium py-2 px-3 rounded-lg border border-slate-700 transition flex items-center space-x-1.5" title="Carica Anagrafica / DBA con Tempo Ciclo e Prezzi">
+        <!-- Pulsante DBA -->
+        <label for="anagraficaFileInput" class="cursor-pointer bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium py-2 px-3 rounded-lg border border-slate-700 transition flex items-center space-x-1.5 whitespace-nowrap" title="Carica DBA">
           <i class="fa-solid fa-address-book text-emerald-400"></i>
           <span>DBA</span>
         </label>
         <input type="file" id="anagraficaFileInput" accept=".json,.csv,.txt" class="hidden">
 
         <!-- Pulsante Salvataggio Globale -->
-        <button id="saveGlobalJsonBtn" class="bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-semibold py-2 px-3 rounded-lg border border-emerald-600 transition flex items-center space-x-1.5 shadow-sm" title="Salva Tutto (Produzione + DBA)">
+        <button id="saveGlobalJsonBtn" class="bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-semibold py-2 px-3 rounded-lg border border-emerald-600 transition flex items-center space-x-1.5 shadow-sm whitespace-nowrap" title="Salva Tutto">
           <i class="fa-solid fa-floppy-disk"></i>
-          <span>Salva Globale</span>
+          <span>Salva</span>
         </button>
 
-        <button id="resetDataBtn" title="Ripristina Dati Iniziali" class="bg-slate-800 hover:bg-red-900/50 text-slate-300 hover:text-red-300 p-2 rounded-lg border border-slate-700 transition">
+        <button id="resetDataBtn" title="Ripristina Dati Iniziali" class="bg-slate-800 hover:bg-red-900/50 text-slate-300 hover:text-red-300 p-2 rounded-lg border border-slate-700 transition whitespace-nowrap">
           <i class="fa-solid fa-rotate-left"></i>
         </button>
       </div>
@@ -93,88 +89,79 @@
   </header>
 
   <!-- Main Container -->
-  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+  <main class="flex-grow max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 space-y-4">
 
     <!-- Anagrafica Status Banner -->
-    <div id="anagraficaStatus" class="hidden bg-emerald-50 border border-emerald-200 rounded-xl p-3 sm:p-4 flex items-center justify-between">
-      <div class="flex items-center space-x-3">
-        <i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>
+    <div id="anagraficaStatus" class="hidden bg-emerald-50 border border-emerald-200 rounded-xl p-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+      <div class="flex items-center space-x-2">
+        <i class="fa-solid fa-circle-check text-emerald-600 text-base"></i>
         <div>
-          <span class="text-sm font-semibold text-emerald-900">Anagrafica / DBA Articoli, Prezzi & Tempi Ciclo Caricati</span>
-          <span id="anagraficaInfo" class="text-xs text-emerald-700 block sm:inline sm:ml-2">0 codici associati</span>
+          <span class="text-xs font-semibold text-emerald-900">Anagrafica / DBA Caricata</span>
+          <span id="anagraficaInfo" class="text-[11px] text-emerald-700 block">0 codici associati</span>
         </div>
       </div>
-      <div class="flex items-center space-x-3">
-        <button onclick="document.getElementById('dbaMapperSection').classList.remove('hidden')" class="text-brand-700 hover:text-brand-900 text-xs font-semibold underline">
-          Modifica Mappatura
-        </button>
-        <button onclick="clearAnagrafica()" class="text-rose-700 hover:text-rose-900 text-xs font-semibold underline">
-          Rimuovi
-        </button>
+      <div class="flex items-center space-x-3 text-xs">
+        <button onclick="document.getElementById('dbaMapperSection').classList.remove('hidden')" class="text-brand-700 font-semibold underline">Modifica Mappatura</button>
+        <button onclick="clearAnagrafica()" class="text-rose-700 font-semibold underline">Rimuovi</button>
       </div>
     </div>
 
-    <!-- DBA Column Mapper Modal / Section -->
-    <div id="dbaMapperSection" class="hidden bg-amber-50 border border-amber-300 rounded-xl p-4 sm:p-5 space-y-3">
+    <!-- DBA Column Mapper Section -->
+    <div id="dbaMapperSection" class="hidden bg-amber-50 border border-amber-300 rounded-xl p-3 space-y-3">
       <div class="flex items-center justify-between">
-        <h3 class="text-sm font-bold text-amber-900 flex items-center gap-2">
+        <h3 class="text-xs font-bold text-amber-900 flex items-center gap-2">
           <i class="fa-solid fa-sliders text-amber-600"></i> Configurazione Mappatura DBA
         </h3>
-        <button onclick="document.getElementById('dbaMapperSection').classList.add('hidden')" class="text-amber-800 hover:text-amber-950 text-xs font-semibold">Chiudi</button>
+        <button onclick="document.getElementById('dbaMapperSection').classList.add('hidden')" class="text-amber-800 text-xs font-bold">Chiudi</button>
       </div>
-      <p class="text-xs text-amber-700">Seleziona le colonne corrette dal tuo file DBA per assicurarti che il Prezzo e il Nome non vengano confusi con il Codice Disegno:</p>
-      <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
+      <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 text-xs">
         <div>
-          <label class="block text-xs font-semibold text-amber-900 mb-1">Codice Articolo:</label>
-          <select id="mapColCode" class="w-full bg-white border border-amber-300 rounded-lg p-2 text-xs text-slate-800"></select>
+          <label class="block font-semibold text-amber-900 mb-1">Codice Articolo:</label>
+          <select id="mapColCode" class="w-full bg-white border border-amber-300 rounded-lg p-2 text-xs"></select>
         </div>
         <div>
-          <label class="block text-xs font-semibold text-amber-900 mb-1">Nome / Descrizione:</label>
-          <select id="mapColName" class="w-full bg-white border border-amber-300 rounded-lg p-2 text-xs text-slate-800"></select>
+          <label class="block font-semibold text-amber-900 mb-1">Nome / Descrizione:</label>
+          <select id="mapColName" class="w-full bg-white border border-amber-300 rounded-lg p-2 text-xs"></select>
         </div>
         <div>
-          <label class="block text-xs font-semibold text-amber-900 mb-1">Prezzo Unitario (€):</label>
-          <select id="mapColPrice" class="w-full bg-white border border-amber-300 rounded-lg p-2 text-xs text-slate-800"></select>
+          <label class="block font-semibold text-amber-900 mb-1">Prezzo Unitario (€):</label>
+          <select id="mapColPrice" class="w-full bg-white border border-amber-300 rounded-lg p-2 text-xs"></select>
         </div>
         <div>
-          <label class="block text-xs font-semibold text-amber-900 mb-1">Tempo Ciclo (secondi):</label>
-          <select id="mapColCycle" class="w-full bg-white border border-amber-300 rounded-lg p-2 text-xs text-slate-800"></select>
+          <label class="block font-semibold text-amber-900 mb-1">Tempo Ciclo (sec):</label>
+          <select id="mapColCycle" class="w-full bg-white border border-amber-300 rounded-lg p-2 text-xs"></select>
         </div>
       </div>
-      <div class="pt-2">
-        <button onclick="applyManualMapping()" class="bg-amber-600 hover:bg-amber-700 text-white font-semibold text-xs py-2 px-6 rounded-lg shadow transition">
-          Conferma Mappatura
-        </button>
+      <div>
+        <button onclick="applyManualMapping()" class="w-full sm:w-auto bg-amber-600 hover:bg-amber-700 text-white font-semibold text-xs py-2 px-4 rounded-lg shadow transition">Conferma Mappatura</button>
       </div>
     </div>
 
     <!-- ================= VIEW 1: HOME DASHBOARD ================= -->
-    <div id="viewHome" class="space-y-6">
+    <div id="viewHome" class="space-y-4">
       <!-- Filter Section -->
-      <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 sm:p-5">
+      <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-3 sm:p-4">
         <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
-          <h2 class="text-sm font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
-            <i class="fa-solid fa-filter text-brand-500"></i> Filtri di Ricerca (Multi-selezione)
+          <h2 class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
+            <i class="fa-solid fa-filter text-brand-500"></i> Filtri di Ricerca
           </h2>
-          <div class="flex items-center gap-3">
-            <button id="clearFiltersBtn" class="text-xs text-slate-500 hover:text-brand-600 font-medium flex items-center gap-1 transition">
-              <i class="fa-solid fa-xmark"></i> Azzera filtri
-            </button>
-          </div>
+          <button id="clearFiltersBtn" class="text-[11px] text-slate-500 hover:text-brand-600 font-medium flex items-center gap-1">
+            <i class="fa-solid fa-xmark"></i> Azzera
+          </button>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           <!-- Data Checkbox Dropdown -->
           <div class="relative">
-            <label class="block text-xs font-semibold text-slate-600 mb-1">Data</label>
-            <div id="dropdownDataBtn" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs text-slate-800 cursor-pointer flex justify-between items-center select-none hover:bg-slate-100 transition">
+            <label class="block text-[11px] font-semibold text-slate-600 mb-1">Data</label>
+            <div id="dropdownDataBtn" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs text-slate-800 cursor-pointer flex justify-between items-center select-none">
               <span id="dropdownDataText" class="truncate font-medium">Tutte le date</span>
-              <i class="fa-solid fa-chevron-down text-slate-400 text-[10px] ml-2"></i>
+              <i class="fa-solid fa-chevron-down text-slate-400 text-[10px]"></i>
             </div>
-            <div id="dropdownDataContent" class="hidden absolute left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-xl z-30 p-2 max-h-60 overflow-y-auto space-y-1">
+            <div id="dropdownDataContent" class="hidden absolute left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-xl z-30 p-2 max-h-50 overflow-y-auto space-y-1">
               <div class="flex items-center p-1.5 hover:bg-slate-50 rounded cursor-pointer border-b border-slate-100">
-                <input type="checkbox" id="data_all" value="ALL" checked class="rounded text-brand-600 focus:ring-brand-500 w-4 h-4 mr-2">
-                <label for="data_all" class="text-xs font-bold text-slate-800 cursor-pointer w-full">Tutte le date</label>
+                <input type="checkbox" id="data_all" value="ALL" checked class="rounded text-brand-600 w-4 h-4 mr-2">
+                <label for="data_all" class="text-xs font-bold text-slate-800 w-full">Tutte le date</label>
               </div>
               <div id="dataCheckboxesContainer" class="space-y-1 mt-1"></div>
             </div>
@@ -182,15 +169,15 @@
 
           <!-- Turno Checkbox Dropdown -->
           <div class="relative">
-            <label class="block text-xs font-semibold text-slate-600 mb-1">Turno</label>
-            <div id="dropdownTurnoBtn" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs text-slate-800 cursor-pointer flex justify-between items-center select-none hover:bg-slate-100 transition">
+            <label class="block text-[11px] font-semibold text-slate-600 mb-1">Turno</label>
+            <div id="dropdownTurnoBtn" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs text-slate-800 cursor-pointer flex justify-between items-center select-none">
               <span id="dropdownTurnoText" class="truncate font-medium">Tutti i turni</span>
-              <i class="fa-solid fa-chevron-down text-slate-400 text-[10px] ml-2"></i>
+              <i class="fa-solid fa-chevron-down text-slate-400 text-[10px]"></i>
             </div>
-            <div id="dropdownTurnoContent" class="hidden absolute left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-xl z-30 p-2 max-h-60 overflow-y-auto space-y-1">
+            <div id="dropdownTurnoContent" class="hidden absolute left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-xl z-30 p-2 max-h-50 overflow-y-auto space-y-1">
               <div class="flex items-center p-1.5 hover:bg-slate-50 rounded cursor-pointer border-b border-slate-100">
-                <input type="checkbox" id="turno_all" value="ALL" checked class="rounded text-brand-600 focus:ring-brand-500 w-4 h-4 mr-2">
-                <label for="turno_all" class="text-xs font-bold text-slate-800 cursor-pointer w-full">Tutti i turni</label>
+                <input type="checkbox" id="turno_all" value="ALL" checked class="rounded text-brand-600 w-4 h-4 mr-2">
+                <label for="turno_all" class="text-xs font-bold text-slate-800 w-full">Tutti i turni</label>
               </div>
               <div id="turnoCheckboxesContainer" class="space-y-1 mt-1"></div>
             </div>
@@ -199,20 +186,20 @@
           <!-- Macchina Checkbox Dropdown -->
           <div class="relative">
             <div class="flex justify-between items-center mb-1">
-              <label class="block text-xs font-semibold text-slate-600">Macchinario / Pressa</label>
+              <label class="block text-[11px] font-semibold text-slate-600">Macchinario</label>
               <div class="space-x-1">
-                <button type="button" onclick="filterMachineType('PR')" class="text-[10px] bg-slate-100 hover:bg-brand-50 text-slate-600 hover:text-brand-700 px-1.5 py-0.5 rounded border border-slate-200 font-medium">Solo Presse</button>
-                <button type="button" onclick="filterMachineType('CNC')" class="text-[10px] bg-slate-100 hover:bg-brand-50 text-slate-600 hover:text-brand-700 px-1.5 py-0.5 rounded border border-slate-200 font-medium">Solo CNC</button>
+                <button type="button" onclick="filterMachineType('PR')" class="text-[10px] bg-slate-100 hover:bg-brand-50 text-slate-600 px-1 py-0.5 rounded border border-slate-200">Presse</button>
+                <button type="button" onclick="filterMachineType('CNC')" class="text-[10px] bg-slate-100 hover:bg-brand-50 text-slate-600 px-1 py-0.5 rounded border border-slate-200">CNC</button>
               </div>
             </div>
-            <div id="dropdownMacchinaBtn" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs text-slate-800 cursor-pointer flex justify-between items-center select-none hover:bg-slate-100 transition">
+            <div id="dropdownMacchinaBtn" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs text-slate-800 cursor-pointer flex justify-between items-center select-none">
               <span id="dropdownMacchinaText" class="truncate font-medium">Tutte le macchine</span>
-              <i class="fa-solid fa-chevron-down text-slate-400 text-[10px] ml-2"></i>
+              <i class="fa-solid fa-chevron-down text-slate-400 text-[10px]"></i>
             </div>
-            <div id="dropdownMacchinaContent" class="hidden absolute left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-xl z-30 p-2 max-h-60 overflow-y-auto space-y-1">
+            <div id="dropdownMacchinaContent" class="hidden absolute left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-xl z-30 p-2 max-h-50 overflow-y-auto space-y-1">
               <div class="flex items-center p-1.5 hover:bg-slate-50 rounded cursor-pointer border-b border-slate-100">
-                <input type="checkbox" id="macchina_all" value="ALL" checked class="rounded text-brand-600 focus:ring-brand-500 w-4 h-4 mr-2">
-                <label for="macchina_all" class="text-xs font-bold text-slate-800 cursor-pointer w-full">Tutte le macchine</label>
+                <input type="checkbox" id="macchina_all" value="ALL" checked class="rounded text-brand-600 w-4 h-4 mr-2">
+                <label for="macchina_all" class="text-xs font-bold text-slate-800 w-full">Tutte le macchine</label>
               </div>
               <div id="macchinaCheckboxesContainer" class="space-y-1 mt-1"></div>
             </div>
@@ -220,15 +207,15 @@
 
           <!-- Componenti Checkbox Dropdown -->
           <div class="relative">
-            <label class="block text-xs font-semibold text-slate-600 mb-1">Componenti / Articoli</label>
-            <div id="dropdownComponentiBtn" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs text-slate-800 cursor-pointer flex justify-between items-center select-none hover:bg-slate-100 transition">
+            <label class="block text-[11px] font-semibold text-slate-600 mb-1">Componenti / Articoli</label>
+            <div id="dropdownComponentiBtn" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs text-slate-800 cursor-pointer flex justify-between items-center select-none">
               <span id="dropdownComponentiText" class="truncate font-medium">Tutti i componenti</span>
-              <i class="fa-solid fa-chevron-down text-slate-400 text-[10px] ml-2"></i>
+              <i class="fa-solid fa-chevron-down text-slate-400 text-[10px]"></i>
             </div>
-            <div id="dropdownComponentiContent" class="hidden absolute left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-xl z-30 p-2 max-h-60 overflow-y-auto space-y-1">
+            <div id="dropdownComponentiContent" class="hidden absolute left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-xl z-30 p-2 max-h-50 overflow-y-auto space-y-1">
               <div class="flex items-center p-1.5 hover:bg-slate-50 rounded cursor-pointer border-b border-slate-100">
-                <input type="checkbox" id="comp_all" value="ALL" checked class="rounded text-brand-600 focus:ring-brand-500 w-4 h-4 mr-2">
-                <label for="comp_all" class="text-xs font-bold text-slate-800 cursor-pointer w-full">Tutti i componenti</label>
+                <input type="checkbox" id="comp_all" value="ALL" checked class="rounded text-brand-600 w-4 h-4 mr-2">
+                <label for="comp_all" class="text-xs font-bold text-slate-800 w-full">Tutti i componenti</label>
               </div>
               <div id="componentiCheckboxesContainer" class="space-y-1 mt-1"></div>
             </div>
@@ -236,80 +223,80 @@
         </div>
       </section>
 
-      <!-- Key Metrics Cards -->
-      <section class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex flex-col justify-between">
+      <!-- Key Metrics Cards - Stacked or Grid 2 cols on Mobile -->
+      <section class="grid grid-cols-2 lg:grid-cols-5 gap-3">
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-3 flex flex-col justify-between">
           <div class="flex justify-between items-start">
-            <span class="text-xs font-semibold text-slate-500 uppercase">Totale Buoni</span>
-            <span class="p-2 bg-blue-50 text-blue-600 rounded-lg text-sm"><i class="fa-solid fa-boxes-stacked"></i></span>
+            <span class="text-[10px] font-semibold text-slate-500 uppercase">Totale Buoni</span>
+            <span class="p-1.5 bg-blue-50 text-blue-600 rounded-lg text-xs"><i class="fa-solid fa-boxes-stacked"></i></span>
           </div>
           <div class="mt-2">
-            <div id="metricPezziTot" class="text-xl sm:text-2xl font-black text-slate-800">0</div>
-            <div class="text-[11px] text-slate-400 mt-0.5">Pezzi conformi</div>
+            <div id="metricPezziTot" class="text-lg sm:text-xl font-black text-slate-800">0</div>
+            <div class="text-[10px] text-slate-400">Pezzi conformi</div>
           </div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex flex-col justify-between border-l-4 border-l-rose-500">
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-3 flex flex-col justify-between border-l-4 border-l-rose-500">
           <div class="flex justify-between items-start">
-            <span class="text-xs font-semibold text-slate-500 uppercase">Scarto Totale</span>
-            <span class="p-2 bg-rose-50 text-rose-600 rounded-lg text-sm"><i class="fa-solid fa-trash-can"></i></span>
+            <span class="text-[10px] font-semibold text-slate-500 uppercase">Scarto Totale</span>
+            <span class="p-1.5 bg-rose-50 text-rose-600 rounded-lg text-xs"><i class="fa-solid fa-trash-can"></i></span>
           </div>
           <div class="mt-2">
-            <div id="metricScartoPz" class="text-xl sm:text-2xl font-black text-rose-600">0 pz</div>
-            <div id="metricScartoValore" class="text-xs font-semibold text-rose-700/80 mt-0.5">€ 0,00</div>
+            <div id="metricScartoPz" class="text-lg sm:text-xl font-black text-rose-600">0 pz</div>
+            <div id="metricScartoValore" class="text-[11px] font-semibold text-rose-700/80">€ 0,00</div>
           </div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex flex-col justify-between border-l-4 border-l-amber-500">
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-3 flex flex-col justify-between border-l-4 border-l-amber-500">
           <div class="flex justify-between items-start">
-            <span class="text-xs font-semibold text-slate-500 uppercase">Rilavorato Totale</span>
-            <span class="p-2 bg-amber-50 text-amber-600 rounded-lg text-sm"><i class="fa-solid fa-recycle"></i></span>
+            <span class="text-[10px] font-semibold text-slate-500 uppercase">Rilavorato</span>
+            <span class="p-1.5 bg-amber-50 text-amber-600 rounded-lg text-xs"><i class="fa-solid fa-recycle"></i></span>
           </div>
           <div class="mt-2">
-            <div id="metricRecuperoPz" class="text-xl sm:text-2xl font-black text-amber-600">0 pz</div>
-            <div id="metricRecuperoValore" class="text-xs font-semibold text-amber-700/80 mt-0.5">€ 0,00</div>
+            <div id="metricRecuperoPz" class="text-lg sm:text-xl font-black text-amber-600">0 pz</div>
+            <div id="metricRecuperoValore" class="text-[11px] font-semibold text-amber-700/80">€ 0,00</div>
           </div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex flex-col justify-between">
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-3 flex flex-col justify-between">
           <div class="flex justify-between items-start">
-            <span class="text-xs font-semibold text-slate-500 uppercase">% Scarto</span>
-            <span class="p-2 bg-rose-50 text-rose-600 rounded-lg text-sm"><i class="fa-solid fa-percent"></i></span>
+            <span class="text-[10px] font-semibold text-slate-500 uppercase">% Scarto</span>
+            <span class="p-1.5 bg-rose-50 text-rose-600 rounded-lg text-xs"><i class="fa-solid fa-percent"></i></span>
           </div>
           <div class="mt-2">
-            <div id="metricPercScarto" class="text-xl sm:text-2xl font-black text-slate-800">0.00%</div>
-            <div class="text-[11px] text-slate-400 mt-0.5">su produzione totale</div>
+            <div id="metricPercScarto" class="text-lg sm:text-xl font-black text-slate-800">0.00%</div>
+            <div class="text-[10px] text-slate-400">su tot. prod.</div>
           </div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex flex-col justify-between col-span-2 lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-3 flex flex-col justify-between col-span-2 lg:col-span-1">
           <div class="flex justify-between items-start">
-            <span class="text-xs font-semibold text-slate-500 uppercase">% Rilavorato</span>
-            <span class="p-2 bg-amber-50 text-amber-600 rounded-lg text-sm"><i class="fa-solid fa-chart-line"></i></span>
+            <span class="text-[10px] font-semibold text-slate-500 uppercase">% Rilavorato</span>
+            <span class="p-1.5 bg-amber-50 text-amber-600 rounded-lg text-xs"><i class="fa-solid fa-chart-line"></i></span>
           </div>
           <div class="mt-2">
-            <div id="metricPercRecupero" class="text-xl sm:text-2xl font-black text-slate-800">0.00%</div>
-            <div class="text-[11px] text-slate-400 mt-0.5">su produzione totale</div>
+            <div id="metricPercRecupero" class="text-lg sm:text-xl font-black text-slate-800">0.00%</div>
+            <div class="text-[10px] text-slate-400">su tot. prod.</div>
           </div>
         </div>
       </section>
 
       <!-- Charts Section -->
-      <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 sm:p-5 flex flex-col">
-          <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-4 flex items-center gap-2">
-            <i class="fa-solid fa-chart-column text-brand-500"></i> Scarto e Rilavorato per Macchina (Pezzi)
+      <section class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-3 sm:p-4 flex flex-col">
+          <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-chart-column text-brand-500"></i> Scarto / Rilavorato per Macchina
           </h3>
-          <div class="relative h-72">
+          <div class="relative h-60 sm:h-72">
             <canvas id="chartMacchine"></canvas>
           </div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 sm:p-5 flex flex-col">
-          <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-4 flex items-center gap-2">
-            <i class="fa-solid fa-chart-pie text-brand-500"></i> Distribuzione Scarto vs Rilavorato per Turno
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-3 sm:p-4 flex flex-col">
+          <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-chart-pie text-brand-500"></i> Distribuzione per Turno
           </h3>
-          <div class="relative h-72">
+          <div class="relative h-60 sm:h-72">
             <canvas id="chartTurni"></canvas>
           </div>
         </div>
@@ -317,106 +304,94 @@
 
       <!-- Data Table Section -->
       <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-        <div class="p-4 sm:p-5 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-50/50">
+        <div class="p-3 sm:p-4 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-slate-50/50">
           <div>
-            <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
+            <h3 class="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
               <i class="fa-solid fa-table-list text-brand-500"></i> Dettaglio Record Produzione
             </h3>
-            <p class="text-xs text-slate-500 mt-0.5">Elenco completo filtrato</p>
           </div>
-
-          <div class="flex items-center space-x-2">
-            <button id="exportCsvBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold py-2 px-3 rounded-lg shadow-sm transition flex items-center gap-2">
-              <i class="fa-solid fa-file-excel"></i> Esporta CSV
-            </button>
-          </div>
+          <button id="exportCsvBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold py-2 px-3 rounded-lg shadow-sm transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-file-excel"></i> Esporta CSV
+          </button>
         </div>
 
-        <div class="overflow-x-auto max-h-[500px]">
+        <div class="overflow-x-auto max-h-[400px] sm:max-h-[500px]">
           <table class="w-full text-left border-collapse text-xs">
             <thead class="bg-slate-100 text-slate-700 sticky top-0 z-25 shadow-sm font-semibold">
               <tr>
-                <th class="p-3 border-b border-slate-200 whitespace-nowrap">Data</th>
-                <th class="p-3 border-b border-slate-200 whitespace-nowrap">Turno</th>
-                <th class="p-3 border-b border-slate-200 whitespace-nowrap">Macchina</th>
-                <th class="p-3 border-b border-slate-200 whitespace-nowrap">Cod. Articolo</th>
-                <th class="p-3 border-b border-slate-200 whitespace-nowrap">Nome Particolare</th>
-                <th class="p-3 border-b border-slate-200 text-right whitespace-nowrap">Prezzo (€)</th>
-                <th class="p-3 border-b border-slate-200 text-right whitespace-nowrap">Prod. Buona (pz)</th>
-                <th class="p-3 border-b border-slate-200 text-right whitespace-nowrap bg-rose-50/70 text-rose-800">Scarto (pz)</th>
-                <th class="p-3 border-b border-slate-200 text-right whitespace-nowrap bg-amber-50/70 text-amber-800">Rilavorato (pz)</th>
-                <th class="p-3 border-b border-slate-200 text-right whitespace-nowrap bg-rose-50/70 text-rose-800">Valore Scarto (€)</th>
-                <th class="p-3 border-b border-slate-200 text-right whitespace-nowrap bg-amber-50/70 text-amber-800">Valore Rilavorato (€)</th>
-                <th class="p-3 border-b border-slate-200 text-right whitespace-nowrap">Ore Dich. (h)</th>
+                <th class="p-2.5 border-b border-slate-200 whitespace-nowrap">Data</th>
+                <th class="p-2.5 border-b border-slate-200 whitespace-nowrap">Turno</th>
+                <th class="p-2.5 border-b border-slate-200 whitespace-nowrap">Macchina</th>
+                <th class="p-2.5 border-b border-slate-200 whitespace-nowrap">Cod. Articolo</th>
+                <th class="p-2.5 border-b border-slate-200 whitespace-nowrap">Nome Particolare</th>
+                <th class="p-2.5 border-b border-slate-200 text-right whitespace-nowrap">Prezzo (€)</th>
+                <th class="p-2.5 border-b border-slate-200 text-right whitespace-nowrap">Prod. Buona</th>
+                <th class="p-2.5 border-b border-slate-200 text-right whitespace-nowrap bg-rose-50/70 text-rose-800">Scarto</th>
+                <th class="p-2.5 border-b border-slate-200 text-right whitespace-nowrap bg-amber-50/70 text-amber-800">Rilavorato</th>
+                <th class="p-2.5 border-b border-slate-200 text-right whitespace-nowrap bg-rose-50/70 text-rose-800">Val. Scarto</th>
+                <th class="p-2.5 border-b border-slate-200 text-right whitespace-nowrap bg-amber-50/70 text-amber-800">Val. Rilavorato</th>
+                <th class="p-2.5 border-b border-slate-200 text-right whitespace-nowrap">Ore Dich.</th>
               </tr>
             </thead>
             <tbody id="tableBody" class="divide-y divide-slate-100 text-slate-700"></tbody>
           </table>
         </div>
 
-        <div class="p-3 bg-slate-50 border-t border-slate-200 text-xs text-slate-500 flex justify-between items-center">
+        <div class="p-2.5 bg-slate-50 border-t border-slate-200 text-[11px] text-slate-500 flex justify-between items-center">
           <span id="rowCountInfo">Visualizzati 0 record</span>
-          <span class="text-[11px] text-slate-400">Aggiornato in tempo reale</span>
         </div>
       </section>
     </div>
 
-    <!-- ================= VIEW 2: ANDAMENTO SETTIMANALE SCARTI & RECUPERI ================= -->
-    <div id="viewWeekly" class="hidden space-y-6">
-      <div class="bg-gradient-to-r from-slate-900 to-cyan-800 text-white p-6 rounded-2xl shadow-md flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+    <!-- ================= VIEW 2: ANDAMENTO SETTIMANALE ================= -->
+    <div id="viewWeekly" class="hidden space-y-4">
+      <div class="bg-gradient-to-r from-slate-900 to-cyan-800 text-white p-4 rounded-xl shadow-md flex flex-col gap-3">
         <div>
-          <h2 class="text-lg font-bold flex items-center gap-2">
+          <h2 class="text-sm font-bold flex items-center gap-2">
             <i class="fa-solid fa-chart-line text-cyan-400"></i> Andamento Settimanale Scarti e Recuperi
           </h2>
-          <p class="text-xs text-slate-200 mt-1">Seleziona le settimane specifiche da visualizzare tramite intervalli chiari</p>
+          <p class="text-[11px] text-slate-200 mt-0.5">Seleziona le settimane specifiche</p>
         </div>
 
-        <!-- Multi-select Checkbox Settimane -->
-        <div class="relative w-full sm:w-72">
-          <div id="dropdownWeeklyBtn" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-xs text-slate-200 cursor-pointer flex justify-between items-center select-none hover:bg-slate-700 transition">
+        <div class="relative w-full">
+          <div id="dropdownWeeklyBtn" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-xs text-slate-200 cursor-pointer flex justify-between items-center select-none">
             <span id="dropdownWeeklyText" class="truncate font-medium">Tutte le settimane</span>
-            <i class="fa-solid fa-chevron-down text-slate-400 text-[10px] ml-2"></i>
+            <i class="fa-solid fa-chevron-down text-slate-400 text-[10px]"></i>
           </div>
-          <div id="dropdownWeeklyContent" class="hidden absolute right-0 mt-1 w-full bg-white border border-slate-200 rounded-xl shadow-xl z-30 p-2 max-h-60 overflow-y-auto space-y-1 text-slate-800">
+          <div id="dropdownWeeklyContent" class="hidden absolute right-0 mt-1 w-full bg-white border border-slate-200 rounded-xl shadow-xl z-30 p-2 max-h-50 overflow-y-auto space-y-1 text-slate-800">
             <div class="flex items-center p-1.5 hover:bg-slate-50 rounded cursor-pointer border-b border-slate-100">
-              <input type="checkbox" id="weekly_all" value="ALL" checked class="rounded text-brand-600 focus:ring-brand-500 w-4 h-4 mr-2">
-              <label for="weekly_all" class="text-xs font-bold text-slate-800 cursor-pointer w-full">Tutte le settimane</label>
+              <input type="checkbox" id="weekly_all" value="ALL" checked class="rounded text-brand-600 w-4 h-4 mr-2">
+              <label for="weekly_all" class="text-xs font-bold text-slate-800 w-full">Tutte le settimane</label>
             </div>
             <div id="weeklyCheckboxesContainer" class="space-y-1 mt-1"></div>
           </div>
         </div>
       </div>
 
-      <!-- Weekly Chart Section -->
-      <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 sm:p-5 flex flex-col">
-        <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-4 flex items-center gap-2">
-          <i class="fa-solid fa-chart-area text-cyan-600"></i> Trend Settimanale Valore e Pezzi Scartati / Rilavorati
+      <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-3 sm:p-4 flex flex-col">
+        <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-3 flex items-center gap-2">
+          <i class="fa-solid fa-chart-area text-cyan-600"></i> Trend Settimanale Valore (€)
         </h3>
-        <div class="relative h-80">
+        <div class="relative h-64 sm:h-80">
           <canvas id="chartWeekly"></canvas>
         </div>
       </section>
 
-      <!-- Weekly Table Section -->
       <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-        <div class="p-4 sm:p-5 border-b border-slate-200 bg-cyan-50/50 flex justify-between items-center">
-          <h3 class="text-sm font-bold text-cyan-950 uppercase tracking-wider flex items-center gap-2">
-            <i class="fa-solid fa-calendar-week text-cyan-600"></i> Riepilogo Dettagliato per Settimana
-          </h3>
-          <span class="text-xs font-semibold bg-cyan-100 text-cyan-800 px-2.5 py-1 rounded-lg">Pezzi & Valori (€)</span>
+        <div class="p-3 sm:p-4 border-b border-slate-200 bg-cyan-50/50 flex justify-between items-center">
+          <h3 class="text-xs sm:text-sm font-bold text-cyan-950 uppercase tracking-wider">Riepilogo per Settimana</h3>
         </div>
-
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse text-xs">
             <thead class="bg-slate-100 text-slate-700 font-semibold">
               <tr>
-                <th class="p-3 border-b border-slate-200">Intervallo Settimanale (Lunedì - Domenica)</th>
-                <th class="p-3 border-b border-slate-200 text-right">Pezzi Buoni</th>
-                <th class="p-3 border-b border-slate-200 text-right text-rose-700">Scarti (pz)</th>
-                <th class="p-3 border-b border-slate-200 text-right text-rose-700">Valore Scarti (€)</th>
-                <th class="p-3 border-b border-slate-200 text-right text-amber-700">Rilavorati (pz)</th>
-                <th class="p-3 border-b border-slate-200 text-right text-amber-700">Valore Rilavorati (€)</th>
-                <th class="p-3 border-b border-slate-200 text-right">Totale Produzione</th>
+                <th class="p-2.5 border-b border-slate-200">Intervallo Settimanale</th>
+                <th class="p-2.5 border-b border-slate-200 text-right">Buoni</th>
+                <th class="p-2.5 border-b border-slate-200 text-right text-rose-700">Scarti</th>
+                <th class="p-2.5 border-b border-slate-200 text-right text-rose-700">Val. Scarti</th>
+                <th class="p-2.5 border-b border-slate-200 text-right text-amber-700">Rilavorati</th>
+                <th class="p-2.5 border-b border-slate-200 text-right text-amber-700">Val. Rilavorati</th>
+                <th class="p-2.5 border-b border-slate-200 text-right">Totale</th>
               </tr>
             </thead>
             <tbody id="weeklyTableBody" class="divide-y divide-slate-100 text-slate-700"></tbody>
@@ -426,20 +401,19 @@
     </div>
 
     <!-- ================= VIEW 3: TOP 5 RANKINGS ================= -->
-    <div id="viewTop5" class="hidden space-y-6">
-      <div class="bg-gradient-to-r from-slate-900 to-brand-700 text-white p-6 rounded-2xl shadow-md flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <div id="viewTop5" class="hidden space-y-4">
+      <div class="bg-gradient-to-r from-slate-900 to-brand-700 text-white p-4 rounded-xl shadow-md flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
         <div>
-          <h2 class="text-lg font-bold flex items-center gap-2">
-            <i class="fa-solid fa-trophy text-amber-400"></i> Classifiche Top 5 Articoli (Scarti & Rilavorazioni)
+          <h2 class="text-sm font-bold flex items-center gap-2">
+            <i class="fa-solid fa-trophy text-amber-400"></i> Classifiche Top 5 Articoli
           </h2>
-          <p class="text-xs text-slate-200 mt-1">Basato sui filtri della pagina principale</p>
+          <p class="text-[11px] text-slate-200 mt-0.5">Basato sui filtri principali</p>
         </div>
 
-        <!-- Selettore Criterio Ordinamento Top 5 -->
-        <div class="flex items-center space-x-2 bg-slate-800 border border-slate-700 p-2 rounded-xl">
-          <span class="text-xs text-slate-300 font-medium">Ordina per:</span>
-          <select id="top5SortType" onchange="renderTop5Rankings()" class="bg-slate-900 text-white text-xs border border-slate-700 rounded-lg p-1.5 focus:outline-none focus:ring-1 focus:ring-brand-500">
-            <option value="value">Valore Economico (€) [Default]</option>
+        <div class="flex items-center space-x-2 bg-slate-800 border border-slate-700 p-1.5 rounded-lg w-full sm:w-auto">
+          <span class="text-[11px] text-slate-300">Ordina:</span>
+          <select id="top5SortType" onchange="renderTop5Rankings()" class="bg-slate-900 text-white text-xs border border-slate-700 rounded p-1 w-full sm:w-auto">
+            <option value="value">Valore (€) [Default]</option>
             <option value="qty">Quantità (Pezzi)</option>
           </select>
         </div>
@@ -447,23 +421,19 @@
 
       <!-- Top 5 Scarti -->
       <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-        <div class="p-4 sm:p-5 border-b border-slate-200 bg-rose-50/50 flex justify-between items-center">
-          <h3 class="text-sm font-bold text-rose-900 uppercase tracking-wider flex items-center gap-2">
-            <i class="fa-solid fa-triangle-exclamation text-rose-600"></i> Top 5 Articoli con Maggiore Scarto Complessivo
-          </h3>
-          <span class="text-xs font-semibold bg-rose-100 text-rose-800 px-2.5 py-1 rounded-lg">Pezzi & Valore (€)</span>
+        <div class="p-3 sm:p-4 border-b border-slate-200 bg-rose-50/50 flex justify-between items-center">
+          <h3 class="text-xs sm:text-sm font-bold text-rose-900 uppercase tracking-wider">Top 5 Maggiore Scarto</h3>
         </div>
-
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse text-xs">
             <thead class="bg-slate-100 text-slate-700 font-semibold">
               <tr>
-                <th class="p-3 border-b border-slate-200 w-12 text-center">#</th>
-                <th class="p-3 border-b border-slate-200">Cod. Articolo</th>
-                <th class="p-3 border-b border-slate-200">Nome Particolare</th>
-                <th class="p-3 border-b border-slate-200 text-right">Prezzo Unit. (€)</th>
-                <th class="p-3 border-b border-slate-200 text-right">Scarto Tot. (pz)</th>
-                <th class="p-3 border-b border-slate-200 text-right">Valore Scarto (€)</th>
+                <th class="p-2.5 border-b border-slate-200 w-10 text-center">#</th>
+                <th class="p-2.5 border-b border-slate-200">Codice</th>
+                <th class="p-2.5 border-b border-slate-200">Nome Particolare</th>
+                <th class="p-2.5 border-b border-slate-200 text-right">Prezzo</th>
+                <th class="p-2.5 border-b border-slate-200 text-right">Scarto Tot.</th>
+                <th class="p-2.5 border-b border-slate-200 text-right">Valore Scarto</th>
               </tr>
             </thead>
             <tbody id="top5ScartoTableBody" class="divide-y divide-slate-100 text-slate-700"></tbody>
@@ -473,23 +443,19 @@
 
       <!-- Top 5 Rilavorati -->
       <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-        <div class="p-4 sm:p-5 border-b border-slate-200 bg-amber-50/50 flex justify-between items-center">
-          <h3 class="text-sm font-bold text-amber-900 uppercase tracking-wider flex items-center gap-2">
-            <i class="fa-solid fa-recycle text-amber-600"></i> Top 5 Articoli con Maggiore Rilavorazione Complessiva
-          </h3>
-          <span class="text-xs font-semibold bg-amber-100 text-amber-800 px-2.5 py-1 rounded-lg">Pezzi & Valore (€)</span>
+        <div class="p-3 sm:p-4 border-b border-slate-200 bg-amber-50/50 flex justify-between items-center">
+          <h3 class="text-xs sm:text-sm font-bold text-amber-900 uppercase tracking-wider">Top 5 Maggiore Rilavorazione</h3>
         </div>
-
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse text-xs">
             <thead class="bg-slate-100 text-slate-700 font-semibold">
               <tr>
-                <th class="p-3 border-b border-slate-200 w-12 text-center">#</th>
-                <th class="p-3 border-b border-slate-200">Cod. Articolo</th>
-                <th class="p-3 border-b border-slate-200">Nome Particolare</th>
-                <th class="p-3 border-b border-slate-200 text-right">Prezzo Unit. (€)</th>
-                <th class="p-3 border-b border-slate-200 text-right">Rilavorato Tot. (pz)</th>
-                <th class="p-3 border-b border-slate-200 text-right">Valore Rilavorato (€)</th>
+                <th class="p-2.5 border-b border-slate-200 w-10 text-center">#</th>
+                <th class="p-2.5 border-b border-slate-200">Codice</th>
+                <th class="p-2.5 border-b border-slate-200">Nome Particolare</th>
+                <th class="p-2.5 border-b border-slate-200 text-right">Prezzo</th>
+                <th class="p-2.5 border-b border-slate-200 text-right">Rilavorato Tot.</th>
+                <th class="p-2.5 border-b border-slate-200 text-right">Valore Rilavorato</th>
               </tr>
             </thead>
             <tbody id="top5RecuperoTableBody" class="divide-y divide-slate-100 text-slate-700"></tbody>
@@ -499,37 +465,31 @@
     </div>
 
     <!-- ================= VIEW 4: EFFICIENCY ================= -->
-    <div id="viewEfficiency" class="hidden space-y-6">
-      <div class="bg-gradient-to-r from-slate-900 to-emerald-800 text-white p-6 rounded-2xl shadow-md flex justify-between items-center">
-        <div>
-          <h2 class="text-lg font-bold flex items-center gap-2">
-            <i class="fa-solid fa-gauge-high text-emerald-400"></i> Analisi Efficienza Produzione
-          </h2>
-          <p class="text-xs text-slate-200 mt-1">Confronto Ore Dichiarate vs Ore Teoriche (Pz Totali x Tempo Ciclo DBA)</p>
-        </div>
+    <div id="viewEfficiency" class="hidden space-y-4">
+      <div class="bg-gradient-to-r from-slate-900 to-emerald-800 text-white p-4 rounded-xl shadow-md">
+        <h2 class="text-sm font-bold flex items-center gap-2">
+          <i class="fa-solid fa-gauge-high text-emerald-400"></i> Analisi Efficienza Produzione
+        </h2>
+        <p class="text-[11px] text-slate-200 mt-0.5">Confronto Ore Dichiarate vs Ore Teoriche</p>
       </div>
 
       <!-- 6 Articoli Meno Performanti -->
       <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-        <div class="p-4 sm:p-5 border-b border-slate-200 bg-rose-50/50 flex justify-between items-center">
-          <h3 class="text-sm font-bold text-rose-900 uppercase tracking-wider flex items-center gap-2">
-            <i class="fa-solid fa-triangle-exclamation text-rose-600"></i> I 6 Articoli Meno Performanti (Maggior Perdita di Tempo)
-          </h3>
-          <span class="text-xs font-semibold bg-rose-100 text-rose-800 px-2.5 py-1 rounded-lg">Pz Totali (Buoni + Scarti + Rilavorati)</span>
+        <div class="p-3 sm:p-4 border-b border-slate-200 bg-rose-50/50 flex justify-between items-center">
+          <h3 class="text-xs sm:text-sm font-bold text-rose-900 uppercase tracking-wider">I 6 Articoli Meno Performanti</h3>
         </div>
-
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse text-xs">
             <thead class="bg-slate-100 text-slate-700 font-semibold">
               <tr>
-                <th class="p-3 border-b border-slate-200 w-12 text-center">#</th>
-                <th class="p-3 border-b border-slate-200">Cod. Articolo</th>
-                <th class="p-3 border-b border-slate-200">Nome Particolare</th>
-                <th class="p-3 border-b border-slate-200 text-right">Tempo Ciclo (s)</th>
-                <th class="p-3 border-b border-slate-200 text-right">Pz Prod. Totali</th>
-                <th class="p-3 border-b border-slate-200 text-right">Tempo Teorico (h)</th>
-                <th class="p-3 border-b border-slate-200 text-right">Tempo Dichiarato (h)</th>
-                <th class="p-3 border-b border-slate-200 text-right text-rose-700 bg-rose-50/80">Perdita / Scostamento</th>
+                <th class="p-2.5 border-b border-slate-200 w-10 text-center">#</th>
+                <th class="p-2.5 border-b border-slate-200">Codice</th>
+                <th class="p-2.5 border-b border-slate-200">Nome Particolare</th>
+                <th class="p-2.5 border-b border-slate-200 text-right">Ciclo</th>
+                <th class="p-2.5 border-b border-slate-200 text-right">Pz Tot</th>
+                <th class="p-2.5 border-b border-slate-200 text-right">Teoriche (h)</th>
+                <th class="p-2.5 border-b border-slate-200 text-right">Dichiarate (h)</th>
+                <th class="p-2.5 border-b border-slate-200 text-right text-rose-700">Scostamento</th>
               </tr>
             </thead>
             <tbody id="bottom6EffTableBody" class="divide-y divide-slate-100 text-slate-700"></tbody>
@@ -539,24 +499,21 @@
 
       <!-- Globale per Turno -->
       <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-        <div class="p-4 sm:p-5 border-b border-slate-200 bg-slate-50 flex justify-between items-center">
-          <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
-            <i class="fa-solid fa-calendar-days text-brand-500"></i> Riepilogo Globale Turni
-          </h3>
+        <div class="p-3 sm:p-4 border-b border-slate-200 bg-slate-50 flex justify-between items-center">
+          <h3 class="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-wider">Riepilogo Globale Turni</h3>
         </div>
-
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse text-xs">
             <thead class="bg-slate-100 text-slate-700 font-semibold">
               <tr>
-                <th class="p-3 border-b border-slate-200">Data</th>
-                <th class="p-3 border-b border-slate-200">Turno</th>
-                <th class="p-3 border-b border-slate-200 text-right">Pezzi Buoni</th>
-                <th class="p-3 border-b border-slate-200 text-right">Scarti (pz)</th>
-                <th class="p-3 border-b border-slate-200 text-right">Rilavorati (pz)</th>
-                <th class="p-3 border-b border-slate-200 text-right">Ore Dichiarate (h)</th>
-                <th class="p-3 border-b border-slate-200 text-right">Ore Teoriche (h)</th>
-                <th class="p-3 border-b border-slate-200 text-right">Perdita (Minuti)</th>
+                <th class="p-2.5 border-b border-slate-200">Data</th>
+                <th class="p-2.5 border-b border-slate-200">Turno</th>
+                <th class="p-2.5 border-b border-slate-200 text-right">Buoni</th>
+                <th class="p-2.5 border-b border-slate-200 text-right">Scarti</th>
+                <th class="p-2.5 border-b border-slate-200 text-right">Rilavorati</th>
+                <th class="p-2.5 border-b border-slate-200 text-right">Dich. (h)</th>
+                <th class="p-2.5 border-b border-slate-200 text-right">Teor. (h)</th>
+                <th class="p-2.5 border-b border-slate-200 text-right">Perdita</th>
               </tr>
             </thead>
             <tbody id="shiftGlobalTableBody" class="divide-y divide-slate-100 text-slate-700"></tbody>
@@ -567,13 +524,13 @@
 
   </main>
 
-  <footer class="bg-white border-t border-slate-200 py-4 mt-auto">
-    <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-400">
-      Dashboard Controllo Qualità & Efficienza Industriale &copy; 2026
+  <footer class="bg-white border-t border-slate-200 py-3 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 text-center text-[11px] text-slate-400">
+      Dashboard Controllo Qualità & Efficienza Industriale &copy; 2026 - Mobile Ready
     </div>
   </footer>
 
-  <!-- Application Logic -->
+  <!-- Application Logic (Identical & fully compatible) -->
   <script>
     const initialRawJson = {
       "0": { "col_0": "1 ott 2026", "col_1": "Primo Turno", "col_2": "PR30001 - PRESSA 3000", "col_3": "341874", "col_4": "56,00", "col_5": "2,00", "col_6": "2,00", "col_10": "7,00" },
@@ -592,20 +549,11 @@
     let chartTurniInstance = null;
     let chartWeeklyInstance = null;
 
-    // Mappa mesi in italiano per supporto a stringhe del tipo "1 ott 2026"
     const monthMapItalian = {
-      'gen': 0, 'gennaio': 0,
-      'feb': 1, 'febbraio': 1,
-      'mar': 2, 'marzo': 2,
-      'apr': 3, 'aprile': 3,
-      'mag': 4, 'maggio': 4,
-      'giu': 5, 'giugno': 5,
-      'lug': 6, 'luglio': 6,
-      'ago': 7, 'agosto': 7,
-      'set': 8, 'settembre': 8,
-      'ott': 9, 'ottobre': 9,
-      'nov': 10, 'novembere': 10, 'novembre': 10,
-      'dic': 11, 'dicembre': 11
+      'gen': 0, 'gennaio': 0, 'feb': 1, 'febbraio': 1, 'mar': 2, 'marzo': 2,
+      'apr': 3, 'aprile': 3, 'mag': 4, 'maggio': 4, 'giu': 5, 'giugno': 5,
+      'lug': 6, 'luglio': 6, 'ago': 7, 'agosto': 7, 'set': 8, 'settembre': 8,
+      'ott': 9, 'ottobre': 9, 'nov': 10, 'novembre': 10, 'dic': 11, 'dicembre': 11
     };
 
     function parseNum(val) {
@@ -616,43 +564,29 @@
       return isNaN(num) ? 0 : num;
     }
 
-    // Parsing evoluto per supportare date come "1 ott 2026", "01/10/2026", "2026-10-01"
     function parseCustomDate(dStr) {
       if (!dStr) return new Date();
       dStr = dStr.toString().trim().toLowerCase();
-
-      // Caso: "1 ott 2026" oppure "01 ott 2026" oppure "1-ott-2026"
       const textDateMatch = dStr.match(/^(\d{1,2})[\s\/\-\._]+([a-z]{3,9})[\s\/\-\._]+(\d{2,4})$/i);
       if (textDateMatch) {
         const day = parseInt(textDateMatch[1], 10);
         const monthStr = textDateMatch[2].toLowerCase();
         let year = parseInt(textDateMatch[3], 10);
         if (year < 100) year += 2000;
-
         if (monthMapItalian[monthStr] !== undefined) {
           return new Date(year, monthMapItalian[monthStr], day);
         }
       }
-
-      // Caso: "01/10/2026"
       if (dStr.includes('/')) {
         const parts = dStr.split('/');
-        if (parts.length === 3) {
-          return new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
-        }
-      } 
-      // Caso: "2026-10-01" oppure "01-10-2026"
-      else if (dStr.includes('-')) {
+        if (parts.length === 3) return new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
+      } else if (dStr.includes('-')) {
         const parts = dStr.split('-');
         if (parts.length === 3) {
-          if (parts[0].length === 4) {
-            return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
-          } else {
-            return new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
-          }
+          if (parts[0].length === 4) return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+          else return new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
         }
       }
-
       const standardDate = new Date(dStr);
       return isNaN(standardDate.getTime()) ? new Date() : standardDate;
     }
@@ -671,32 +605,17 @@
         const turno = item.col_1 || 'N/D';
         const macchina = item.col_2 || 'N/D';
         const codice = item.col_3 ? item.col_3.toString().trim() : 'N/D';
-        
         const pezziBuoni = parseNum(item.col_5);
         const pezziScarto = parseNum(item.col_6);
         const pezziRecupero = parseNum(item.col_7);
         const oreTotali = parseNum(item.col_10);
-
         const articleInfo = getArticleInfo(codice);
         const prezzo = articleInfo.price;
-        const valoreScarto = pezziScarto * prezzo;
-        const valoreRecupero = pezziRecupero * prezzo;
-
         return {
-          data: data,
-          turno: turno,
-          macchina: macchina,
-          macchinaTipo: getMachineType(macchina),
-          codice: codice,
-          nomeParticolare: articleInfo.name,
-          prezzoUnitario: prezzo,
-          tempoCicloSec: articleInfo.cycleTime,
-          pezziBuoni: pezziBuoni,
-          pezziScarto: pezziScarto,
-          pezziRecupero: pezziRecupero,
-          valoreScarto: valoreScarto,
-          valoreRecupero: valoreRecupero,
-          oreTotali: oreTotali
+          data: data, turno: turno, macchina: macchina, macchinaTipo: getMachineType(macchina),
+          codice: codice, nomeParticolare: articleInfo.name, prezzoUnitario: prezzo,
+          tempoCicloSec: articleInfo.cycleTime, pezziBuoni: pezziBuoni, pezziScarto: pezziScarto,
+          pezziRecupero: pezziRecupero, valoreScarto: pezziScarto * prezzo, valoreRecupero: pezziRecupero * prezzo, oreTotali: oreTotali
         };
       });
     }
@@ -710,86 +629,71 @@
 
     function switchView(viewName) {
       currentView = viewName;
-      document.getElementById('viewHome').classList.add('hidden');
-      document.getElementById('viewWeekly').classList.add('hidden');
-      document.getElementById('viewTop5').classList.add('hidden');
-      document.getElementById('viewEfficiency').classList.add('hidden');
-
-      document.getElementById('switchViewHomeBtn').className = "bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 px-3 rounded-lg transition border border-slate-700";
-      document.getElementById('switchViewWeeklyBtn').className = "bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 px-3 rounded-lg transition border border-slate-700";
-      document.getElementById('switchViewTop5Btn').className = "bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 px-3 rounded-lg transition border border-slate-700";
-      document.getElementById('switchViewEffBtn').className = "bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 px-3 rounded-lg transition border border-slate-700";
+      ['viewHome', 'viewWeekly', 'viewTop5', 'viewEfficiency'].forEach(id => document.getElementById(id).classList.add('hidden'));
+      ['switchViewHomeBtn', 'switchViewWeeklyBtn', 'switchViewTop5Btn', 'switchViewEffBtn'].forEach(id => {
+        document.getElementById(id).className = "bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold py-2 px-3 rounded-lg transition border border-slate-700 whitespace-nowrap";
+      });
 
       if (viewName === 'home') {
         document.getElementById('viewHome').classList.remove('hidden');
-        document.getElementById('switchViewHomeBtn').className = "bg-brand-600 text-white text-xs font-semibold py-2 px-3 rounded-lg transition shadow-sm";
+        document.getElementById('switchViewHomeBtn').className = "bg-brand-600 text-white text-xs font-semibold py-2 px-3 rounded-lg transition shadow-sm whitespace-nowrap";
       } else if (viewName === 'weekly') {
         document.getElementById('viewWeekly').classList.remove('hidden');
-        document.getElementById('switchViewWeeklyBtn').className = "bg-brand-600 text-white text-xs font-semibold py-2 px-3 rounded-lg transition shadow-sm";
+        document.getElementById('switchViewWeeklyBtn').className = "bg-brand-600 text-white text-xs font-semibold py-2 px-3 rounded-lg transition shadow-sm whitespace-nowrap";
         populateWeeklyFilterOptions();
         setTimeout(() => renderWeeklyTrend(), 50);
       } else if (viewName === 'top5') {
         document.getElementById('viewTop5').classList.remove('hidden');
-        document.getElementById('switchViewTop5Btn').className = "bg-brand-600 text-white text-xs font-semibold py-2 px-3 rounded-lg transition shadow-sm";
+        document.getElementById('switchViewTop5Btn').className = "bg-brand-600 text-white text-xs font-semibold py-2 px-3 rounded-lg transition shadow-sm whitespace-nowrap";
         renderTop5Rankings();
       } else if (viewName === 'efficiency') {
         document.getElementById('viewEfficiency').classList.remove('hidden');
-        document.getElementById('switchViewEffBtn').className = "bg-brand-600 text-white text-xs font-semibold py-2 px-3 rounded-lg transition shadow-sm";
+        document.getElementById('switchViewEffBtn').className = "bg-brand-600 text-white text-xs font-semibold py-2 px-3 rounded-lg transition shadow-sm whitespace-nowrap";
         renderEfficiencyAndShifts();
       }
     }
 
     function populateFilterOptions() {
-      const uniqueDate = [...new Set(parsedData.map(d => d.data))].filter(Boolean).sort((a, b) => {
-        return parseCustomDate(a) - parseCustomDate(b);
-      });
+      const uniqueDate = [...new Set(parsedData.map(d => d.data))].filter(Boolean).sort((a, b) => parseCustomDate(a) - parseCustomDate(b));
       const uniqueTurni = [...new Set(parsedData.map(d => d.turno))].filter(Boolean).sort();
       const uniqueMacchine = [...new Set(parsedData.map(d => d.macchina))].filter(Boolean).sort();
       const uniqueComponenti = [...new Set(parsedData.map(d => d.codice))].filter(Boolean).sort();
 
-      // Data Checkboxes
-      const dataContainer = document.getElementById('dataCheckboxesContainer');
-      dataContainer.innerHTML = uniqueDate.map(d => `
+      document.getElementById('dataCheckboxesContainer').innerHTML = uniqueDate.map(d => `
         <div class="flex items-center p-1.5 hover:bg-slate-50 rounded cursor-pointer">
-          <input type="checkbox" name="data_cb" value="${d}" class="rounded text-brand-600 focus:ring-brand-500 w-4 h-4 mr-2">
-          <label class="text-xs text-slate-700 cursor-pointer w-full truncate">${d}</label>
+          <input type="checkbox" name="data_cb" value="${d}" class="rounded text-brand-600 w-4 h-4 mr-2">
+          <label class="text-xs text-slate-700 w-full truncate">${d}</label>
         </div>
       `).join('');
 
-      // Turno Checkboxes
-      const turnoContainer = document.getElementById('turnoCheckboxesContainer');
-      turnoContainer.innerHTML = uniqueTurni.map(t => `
+      document.getElementById('turnoCheckboxesContainer').innerHTML = uniqueTurni.map(t => `
         <div class="flex items-center p-1.5 hover:bg-slate-50 rounded cursor-pointer">
-          <input type="checkbox" name="turno_cb" value="${t}" class="rounded text-brand-600 focus:ring-brand-500 w-4 h-4 mr-2">
-          <label class="text-xs text-slate-700 cursor-pointer w-full truncate">${t}</label>
+          <input type="checkbox" name="turno_cb" value="${t}" class="rounded text-brand-600 w-4 h-4 mr-2">
+          <label class="text-xs text-slate-700 w-full truncate">${t}</label>
         </div>
       `).join('');
 
-      // Macchina Checkboxes
-      const macContainer = document.getElementById('macchinaCheckboxesContainer');
-      macContainer.innerHTML = uniqueMacchine.map(m => {
+      document.getElementById('macchinaCheckboxesContainer').innerHTML = uniqueMacchine.map(m => {
         const tipo = getMachineType(m);
         const badgeColor = tipo === 'PRESSA' ? 'bg-blue-50 text-blue-700' : 'bg-purple-50 text-purple-700';
         return `
           <div class="flex items-center justify-between p-1.5 hover:bg-slate-50 rounded cursor-pointer">
             <div class="flex items-center truncate mr-2">
-              <input type="checkbox" name="macchina_cb" value="${m}" class="rounded text-brand-600 focus:ring-brand-500 w-4 h-4 mr-2">
-              <label class="text-xs text-slate-700 cursor-pointer truncate">${m}</label>
+              <input type="checkbox" name="macchina_cb" value="${m}" class="rounded text-brand-600 w-4 h-4 mr-2">
+              <label class="text-xs text-slate-700 truncate">${m}</label>
             </div>
-            <span class="text-[9px] font-semibold px-1.5 py-0.5 rounded ${badgeColor}">${tipo}</span>
+            <span class="text-[9px] font-semibold px-1 py-0.5 rounded ${badgeColor}">${tipo}</span>
           </div>
         `;
       }).join('');
 
-      // Componenti Checkboxes
-      const compContainer = document.getElementById('componentiCheckboxesContainer');
-      compContainer.innerHTML = uniqueComponenti.map(c => {
+      document.getElementById('componentiCheckboxesContainer').innerHTML = uniqueComponenti.map(c => {
         const info = getArticleInfo(c);
-        const labelText = info.name !== 'Non definito' ? `${c} - ${info.name} (€${info.price.toFixed(2)})` : c;
+        const labelText = info.name !== 'Non definito' ? `${c} - ${info.name}` : c;
         return `
           <div class="flex items-center p-1.5 hover:bg-slate-50 rounded cursor-pointer">
-            <input type="checkbox" name="comp_cb" value="${c}" class="rounded text-brand-600 focus:ring-brand-500 w-4 h-4 mr-2">
-            <label class="text-xs text-slate-700 cursor-pointer w-full truncate">${labelText}</label>
+            <input type="checkbox" name="comp_cb" value="${c}" class="rounded text-brand-600 w-4 h-4 mr-2">
+            <label class="text-xs text-slate-700 w-full truncate">${labelText}</label>
           </div>
         `;
       }).join('');
@@ -798,69 +702,27 @@
     }
 
     function setupCheckboxListeners() {
-      const dataAll = document.getElementById('data_all');
-      const dataCBs = document.querySelectorAll('input[name="data_cb"]');
-      dataAll.addEventListener('change', () => {
-        dataCBs.forEach(cb => cb.checked = false);
-        updateDropdownLabel('data');
-        applyFilters();
-      });
-      dataCBs.forEach(cb => {
-        cb.addEventListener('change', () => {
-          if (cb.checked) dataAll.checked = false;
-          if (Array.from(dataCBs).every(c => !c.checked)) dataAll.checked = true;
-          updateDropdownLabel('data');
+      const setupGroup = (allId, cbName, type) => {
+        const allEl = document.getElementById(allId);
+        const cbs = document.querySelectorAll(`input[name="${cbName}"]`);
+        allEl.addEventListener('change', () => {
+          cbs.forEach(cb => cb.checked = false);
+          updateDropdownLabel(type);
           applyFilters();
         });
-      });
-
-      const turnoAll = document.getElementById('turno_all');
-      const turnoCBs = document.querySelectorAll('input[name="turno_cb"]');
-      turnoAll.addEventListener('change', () => {
-        turnoCBs.forEach(cb => cb.checked = false);
-        updateDropdownLabel('turno');
-        applyFilters();
-      });
-      turnoCBs.forEach(cb => {
-        cb.addEventListener('change', () => {
-          if (cb.checked) turnoAll.checked = false;
-          if (Array.from(turnoCBs).every(c => !c.checked)) turnoAll.checked = true;
-          updateDropdownLabel('turno');
-          applyFilters();
+        cbs.forEach(cb => {
+          cb.addEventListener('change', () => {
+            if (cb.checked) allEl.checked = false;
+            if (Array.from(cbs).every(c => !c.checked)) allEl.checked = true;
+            updateDropdownLabel(type);
+            applyFilters();
+          });
         });
-      });
-
-      const macAll = document.getElementById('macchina_all');
-      const macCBs = document.querySelectorAll('input[name="macchina_cb"]');
-      macAll.addEventListener('change', () => {
-        macCBs.forEach(cb => cb.checked = false);
-        updateDropdownLabel('macchina');
-        applyFilters();
-      });
-      macCBs.forEach(cb => {
-        cb.addEventListener('change', () => {
-          if (cb.checked) macAll.checked = false;
-          if (Array.from(macCBs).every(c => !c.checked)) macAll.checked = true;
-          updateDropdownLabel('macchina');
-          applyFilters();
-        });
-      });
-
-      const compAll = document.getElementById('comp_all');
-      const compCBs = document.querySelectorAll('input[name="comp_cb"]');
-      compAll.addEventListener('change', () => {
-        compCBs.forEach(cb => cb.checked = false);
-        updateDropdownLabel('componenti');
-        applyFilters();
-      });
-      compCBs.forEach(cb => {
-        cb.addEventListener('change', () => {
-          if (cb.checked) compAll.checked = false;
-          if (Array.from(compCBs).every(c => !c.checked)) compAll.checked = true;
-          updateDropdownLabel('componenti');
-          applyFilters();
-        });
-      });
+      };
+      setupGroup('data_all', 'data_cb', 'data');
+      setupGroup('turno_all', 'turno_cb', 'turno');
+      setupGroup('macchina_all', 'macchina_cb', 'macchina');
+      setupGroup('comp_all', 'comp_cb', 'componenti');
     }
 
     function filterMachineType(typeKeyword) {
@@ -868,98 +730,56 @@
       const macCBs = document.querySelectorAll('input[name="macchina_cb"]');
       macCBs.forEach(cb => {
         const val = cb.value.toUpperCase();
-        if (typeKeyword === 'PR') {
-          cb.checked = val.startsWith('PR') || val.includes('PRESSA');
-        } else if (typeKeyword === 'CNC') {
-          cb.checked = val.startsWith('R') || val.includes('CNC') || val.includes('ISOLA') || val.includes('FRESA');
-        }
+        if (typeKeyword === 'PR') cb.checked = val.startsWith('PR') || val.includes('PRESSA');
+        else if (typeKeyword === 'CNC') cb.checked = val.startsWith('R') || val.includes('CNC') || val.includes('ISOLA') || val.includes('FRESA');
       });
-      if (Array.from(macCBs).every(c => !c.checked)) {
-        document.getElementById('macchina_all').checked = true;
-      }
+      if (Array.from(macCBs).every(c => !c.checked)) document.getElementById('macchina_all').checked = true;
       updateDropdownLabel('macchina');
       applyFilters();
     }
 
     function updateDropdownLabel(type) {
-      if (type === 'data') {
-        const all = document.getElementById('data_all').checked;
-        const checked = document.querySelectorAll('input[name="data_cb"]:checked');
-        const textElem = document.getElementById('dropdownDataText');
-        if (all || checked.length === 0) textElem.innerText = "Tutte le date";
-        else if (checked.length === 1) textElem.innerText = checked[0].value;
-        else textElem.innerText = `${checked.length} date selezionate`;
-      } else if (type === 'turno') {
-        const all = document.getElementById('turno_all').checked;
-        const checked = document.querySelectorAll('input[name="turno_cb"]:checked');
-        const textElem = document.getElementById('dropdownTurnoText');
-        if (all || checked.length === 0) textElem.innerText = "Tutti i turni";
-        else if (checked.length === 1) textElem.innerText = checked[0].value;
-        else textElem.innerText = `${checked.length} turni selezionati`;
-      } else if (type === 'macchina') {
-        const macAll = document.getElementById('macchina_all').checked;
-        const checked = document.querySelectorAll('input[name="macchina_cb"]:checked');
-        const textElem = document.getElementById('dropdownMacchinaText');
-        if (macAll || checked.length === 0) textElem.innerText = "Tutte le macchine";
-        else if (checked.length === 1) textElem.innerText = checked[0].value;
-        else textElem.innerText = `${checked.length} macchine selezionate`;
-      } else if (type === 'componenti') {
-        const compAll = document.getElementById('comp_all').checked;
-        const checked = document.querySelectorAll('input[name="comp_cb"]:checked');
-        const textElem = document.getElementById('dropdownComponentiText');
-        if (compAll || checked.length === 0) textElem.innerText = "Tutti i componenti";
-        else if (checked.length === 1) textElem.innerText = checked[0].value;
-        else textElem.innerText = `${checked.length} componenti selezionati`;
-      } else if (type === 'weekly') {
-        const weeklyAll = document.getElementById('weekly_all').checked;
-        const checked = document.querySelectorAll('input[name="weekly_cb"]:checked');
-        const textElem = document.getElementById('dropdownWeeklyText');
-        if (weeklyAll || checked.length === 0) textElem.innerText = "Tutte le settimane";
-        else if (checked.length === 1) textElem.innerText = `1 settimana selezionata`;
-        else textElem.innerText = `${checked.length} settimane selezionate`;
-      }
+      const getLabel = (allId, name, def) => {
+        if (document.getElementById(allId).checked) return def;
+        const checked = document.querySelectorAll(`input[name="${name}"]:checked`);
+        if (checked.length === 0) return def;
+        if (checked.length === 1) return checked[0].value;
+        return `${checked.length} selez.`;
+      };
+      if (type === 'data') document.getElementById('dropdownDataText').innerText = getLabel('data_all', 'data_cb', 'Tutte le date');
+      else if (type === 'turno') document.getElementById('dropdownTurnoText').innerText = getLabel('turno_all', 'turno_cb', 'Tutti i turni');
+      else if (type === 'macchina') document.getElementById('dropdownMacchinaText').innerText = getLabel('macchina_all', 'macchina_cb', 'Tutte le macchine');
+      else if (type === 'componenti') document.getElementById('dropdownComponentiText').innerText = getLabel('comp_all', 'comp_cb', 'Tutti i componenti');
+      else if (type === 'weekly') document.getElementById('dropdownWeeklyText').innerText = getLabel('weekly_all', 'weekly_cb', 'Tutte le settimane');
     }
 
     function applyFilters() {
       const isAllData = document.getElementById('data_all').checked;
       const selectedDates = Array.from(document.querySelectorAll('input[name="data_cb"]:checked')).map(cb => cb.value);
-
       const isAllTurni = document.getElementById('turno_all').checked;
       const selectedTurni = Array.from(document.querySelectorAll('input[name="turno_cb"]:checked')).map(cb => cb.value);
-      
       const isAllMacchine = document.getElementById('macchina_all').checked;
       const selectedMacchine = Array.from(document.querySelectorAll('input[name="macchina_cb"]:checked')).map(cb => cb.value);
-
       const isAllComponenti = document.getElementById('comp_all').checked;
       const selectedComponenti = Array.from(document.querySelectorAll('input[name="comp_cb"]:checked')).map(cb => cb.value);
 
       filteredData = parsedData.filter(row => {
-        const matchData = isAllData || selectedDates.includes(row.data);
-        const matchTurno = isAllTurni || selectedTurni.includes(row.turno);
-        const matchMacchina = isAllMacchine || selectedMacchine.includes(row.macchina);
-        const matchComponente = isAllComponenti || selectedComponenti.includes(row.codice);
-
-        return matchData && matchTurno && matchMacchina && matchComponente;
+        return (isAllData || selectedDates.includes(row.data)) &&
+               (isAllTurni || selectedTurni.includes(row.turno)) &&
+               (isAllMacchine || selectedMacchine.includes(row.macchina)) &&
+               (isAllComponenti || selectedComponenti.includes(row.codice));
       });
 
       updateMetrics();
       renderTable();
       renderCharts();
-      if (currentView === 'weekly') {
-        populateWeeklyFilterOptions();
-        renderWeeklyTrend();
-      }
+      if (currentView === 'weekly') { populateWeeklyFilterOptions(); renderWeeklyTrend(); }
       if (currentView === 'top5') renderTop5Rankings();
       if (currentView === 'efficiency') renderEfficiencyAndShifts();
     }
 
     function updateMetrics() {
-      let totBuoni = 0;
-      let totScartoPz = 0;
-      let totRecuperoPz = 0;
-      let totScartoValore = 0;
-      let totRecuperoValore = 0;
-
+      let totBuoni = 0, totScartoPz = 0, totRecuperoPz = 0, totScartoValore = 0, totRecuperoValore = 0;
       filteredData.forEach(d => {
         totBuoni += d.pezziBuoni;
         totScartoPz += d.pezziScarto;
@@ -967,18 +787,14 @@
         totScartoValore += d.valoreScarto;
         totRecuperoValore += d.valoreRecupero;
       });
-
-      const totProduzioneComplessiva = totBuoni + totScartoPz + totRecuperoPz;
-      const percScarto = totProduzioneComplessiva > 0 ? ((totScartoPz / totProduzioneComplessiva) * 100).toFixed(2) : '0.00';
-      const percRecupero = totProduzioneComplessiva > 0 ? ((totRecuperoPz / totProduzioneComplessiva) * 100).toFixed(2) : '0.00';
-
+      const totProd = totBuoni + totScartoPz + totRecuperoPz;
       document.getElementById('metricPezziTot').innerText = totBuoni.toLocaleString('it-IT');
       document.getElementById('metricScartoPz').innerText = `${totScartoPz.toLocaleString('it-IT')} pz`;
       document.getElementById('metricScartoValore').innerText = `€ ${totScartoValore.toLocaleString('it-IT', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
       document.getElementById('metricRecuperoPz').innerText = `${totRecuperoPz.toLocaleString('it-IT')} pz`;
       document.getElementById('metricRecuperoValore').innerText = `€ ${totRecuperoValore.toLocaleString('it-IT', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-      document.getElementById('metricPercScarto').innerText = `${percScarto}%`;
-      document.getElementById('metricPercRecupero').innerText = `${percRecupero}%`;
+      document.getElementById('metricPercScarto').innerText = `${totProd > 0 ? ((totScartoPz/totProd)*100).toFixed(2) : '0.00'}%`;
+      document.getElementById('metricPercRecupero').innerText = `${totProd > 0 ? ((totRecuperoPz/totProd)*100).toFixed(2) : '0.00'}%`;
     }
 
     function getArticleInfo(code) {
@@ -988,9 +804,7 @@
       const numVersion = String(Number(trimmed));
       if (anagraficaMap[numVersion]) return anagraficaMap[numVersion];
       for (let key in anagraficaMap) {
-        if (key.trim() === trimmed || String(Number(key)) === numVersion) {
-          return anagraficaMap[key];
-        }
+        if (key.trim() === trimmed || String(Number(key)) === numVersion) return anagraficaMap[key];
       }
       return { name: 'Non definito', price: 0, cycleTime: 0 };
     }
@@ -1003,13 +817,13 @@
     }
 
     function formatItalianDate(dateObj) {
-      return `${String(dateObj.getDate()).padStart(2, '0')}/${String(dateObj.getMonth() + 1).padStart(2, '0')}/${dateObj.getFullYear()}`;
+      return `${String(dateObj.getDate()).padStart(2, '0')}/${String(dateObj.getMonth() + 1).padStart(2, '0')}`;
     }
 
     function getWeekRangeFormatted(mondayDate) {
       const sunday = new Date(mondayDate.getTime());
       sunday.setDate(sunday.getDate() + 6);
-      return `Dal ${formatItalianDate(mondayDate)} al ${formatItalianDate(sunday)}`;
+      return `${formatItalianDate(mondayDate)}-${formatItalianDate(sunday)}`;
     }
 
     function populateWeeklyFilterOptions() {
@@ -1023,65 +837,42 @@
       });
 
       const sortedWeeks = Object.keys(weeklyMapTemp).sort((a, b) => new Date(a) - new Date(b));
-      const weeklyContainer = document.getElementById('weeklyCheckboxesContainer');
-      
       const checkedWeeks = Array.from(document.querySelectorAll('input[name="weekly_cb"]:checked')).map(cb => cb.value);
 
-      weeklyContainer.innerHTML = sortedWeeks.map(wKey => {
+      document.getElementById('weeklyCheckboxesContainer').innerHTML = sortedWeeks.map(wKey => {
         const mondayDate = weeklyMapTemp[wKey];
-        const labelText = getWeekRangeFormatted(mondayDate);
-        const isChecked = checkedWeeks.includes(wKey) ? 'checked' : '';
         return `
           <div class="flex items-center p-1.5 hover:bg-slate-50 rounded cursor-pointer">
-            <input type="checkbox" name="weekly_cb" value="${wKey}" ${isChecked} class="rounded text-brand-600 focus:ring-brand-500 w-4 h-4 mr-2">
-            <label class="text-xs text-slate-700 cursor-pointer w-full truncate">${labelText}</label>
+            <input type="checkbox" name="weekly_cb" value="${wKey}" ${checkedWeeks.includes(wKey)?'checked':''} class="rounded text-brand-600 w-4 h-4 mr-2">
+            <label class="text-xs text-slate-700 w-full truncate">${getWeekRangeFormatted(mondayDate)}</label>
           </div>
         `;
       }).join('');
 
-      setupWeeklyCheckboxListeners();
+      const weeklyAll = document.getElementById('weekly_all');
+      const weeklyCBs = document.querySelectorAll('input[name="weekly_cb"]');
+      weeklyAll.onchange = () => { weeklyCBs.forEach(cb => cb.checked = false); updateDropdownLabel('weekly'); renderWeeklyTrend(); };
+      weeklyCBs.forEach(cb => cb.onchange = () => {
+        if (cb.checked) weeklyAll.checked = false;
+        if (Array.from(weeklyCBs).every(c => !c.checked)) weeklyAll.checked = true;
+        updateDropdownLabel('weekly'); renderWeeklyTrend();
+      });
       updateDropdownLabel('weekly');
     }
 
-    function setupWeeklyCheckboxListeners() {
-      const weeklyAll = document.getElementById('weekly_all');
-      const weeklyCBs = document.querySelectorAll('input[name="weekly_cb"]');
-      
-      weeklyAll.onchange = () => {
-        weeklyCBs.forEach(cb => cb.checked = false);
-        updateDropdownLabel('weekly');
-        renderWeeklyTrend();
-      };
-
-      weeklyCBs.forEach(cb => {
-        cb.onchange = () => {
-          if (cb.checked) weeklyAll.checked = false;
-          if (Array.from(weeklyCBs).every(c => !c.checked)) weeklyAll.checked = true;
-          updateDropdownLabel('weekly');
-          renderWeeklyTrend();
-        };
-      });
-    }
-
-    // Render Andamento Settimanale
     function renderWeeklyTrend() {
       const isAllWeekly = document.getElementById('weekly_all').checked;
       const selectedWeeks = Array.from(document.querySelectorAll('input[name="weekly_cb"]:checked')).map(cb => cb.value);
-
       const weeklyMap = {};
 
       filteredData.forEach(d => {
         const dObj = parseCustomDate(d.data);
         if (isNaN(dObj.getTime())) return;
-
         const monday = getMonday(dObj);
         const wKey = `${monday.getFullYear()}-${String(monday.getMonth() + 1).padStart(2, '0')}-${String(monday.getDate()).padStart(2, '0')}`;
-
         if (!isAllWeekly && !selectedWeeks.includes(wKey)) return;
 
-        if (!weeklyMap[wKey]) {
-          weeklyMap[wKey] = { weekKey: wKey, mondayDate: monday, buoni: 0, scartoPz: 0, scartoValore: 0, recuperoPz: 0, recuperoValore: 0 };
-        }
+        if (!weeklyMap[wKey]) weeklyMap[wKey] = { mondayDate: monday, buoni: 0, scartoPz: 0, scartoValore: 0, recuperoPz: 0, recuperoValore: 0 };
         weeklyMap[wKey].buoni += d.pezziBuoni;
         weeklyMap[wKey].scartoPz += d.pezziScarto;
         weeklyMap[wKey].scartoValore += d.valoreScarto;
@@ -1089,372 +880,184 @@
         weeklyMap[wKey].recuperoValore += d.valoreRecupero;
       });
 
-      const sortedWeeks = Object.keys(weeklyMap).sort((a, b) => new Date(a) - new Date(b));
-      const weeklyArr = sortedWeeks.map(k => weeklyMap[k]);
-
-      // Popola Tabella Settimanale
-      const tbody = document.getElementById('weeklyTableBody');
-      tbody.innerHTML = '';
-
-      if (weeklyArr.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400">Nessun dato disponibile per i filtri selezionati.</td></tr>`;
-      } else {
-        weeklyArr.forEach(item => {
-          const rangeStr = getWeekRangeFormatted(item.mondayDate);
-          const totProd = item.buoni + item.scartoPz + item.recuperoPz;
-          tbody.innerHTML += `
-            <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100">
-              <td class="p-3 font-bold text-slate-900"><i class="fa-regular fa-calendar text-cyan-600 mr-1.5"></i> ${rangeStr}</td>
-              <td class="p-3 text-right font-semibold text-slate-800">${item.buoni.toLocaleString('it-IT')} pz</td>
-              <td class="p-3 text-right font-bold text-rose-600">${item.scartoPz.toLocaleString('it-IT')} pz</td>
-              <td class="p-3 text-right font-mono font-bold text-rose-700">€ ${item.scartoValore.toLocaleString('it-IT', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
-              <td class="p-3 text-right font-bold text-amber-600">${item.recuperoPz.toLocaleString('it-IT')} pz</td>
-              <td class="p-3 text-right font-mono font-bold text-amber-700">€ ${item.recuperoValore.toLocaleString('it-IT', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
-              <td class="p-3 text-right font-mono font-bold text-slate-900">${totProd.toLocaleString('it-IT')} pz</td>
-            </tr>
-          `;
-        });
-      }
-
-      // Render Grafico Settimanale
-      const labels = weeklyArr.map(i => getWeekRangeFormatted(i.mondayDate));
-      const dataScartoVal = weeklyArr.map(i => i.scartoValore);
-      const dataRecuperoVal = weeklyArr.map(i => i.recuperoValore);
+      const weeklyArr = Object.keys(weeklyMap).sort((a, b) => new Date(a) - new Date(b)).map(k => weeklyMap[k]);
+      document.getElementById('weeklyTableBody').innerHTML = weeklyArr.length === 0 ? `<tr><td colspan="7" class="p-4 text-center text-slate-400">Nessun dato.</td></tr>` :
+        weeklyArr.map(item => `
+          <tr class="hover:bg-slate-50 border-b border-slate-100">
+            <td class="p-2.5 font-bold text-slate-900">${getWeekRangeFormatted(item.mondayDate)}</td>
+            <td class="p-2.5 text-right font-semibold">${item.buoni.toLocaleString('it-IT')}</td>
+            <td class="p-2.5 text-right font-bold text-rose-600">${item.scartoPz.toLocaleString('it-IT')}</td>
+            <td class="p-2.5 text-right font-mono font-bold text-rose-700">€ ${item.scartoValore.toFixed(2)}</td>
+            <td class="p-2.5 text-right font-bold text-amber-600">${item.recuperoPz.toLocaleString('it-IT')}</td>
+            <td class="p-2.5 text-right font-mono font-bold text-amber-700">€ ${item.recuperoValore.toFixed(2)}</td>
+            <td class="p-2.5 text-right font-mono font-bold">${(item.buoni + item.scartoPz + item.recuperoPz).toLocaleString('it-IT')}</td>
+          </tr>
+        `).join('');
 
       const ctxWeekly = document.getElementById('chartWeekly').getContext('2d');
       if (chartWeeklyInstance) chartWeeklyInstance.destroy();
-
       chartWeeklyInstance = new Chart(ctxWeekly, {
         type: 'bar',
         data: {
-          labels: labels,
+          labels: weeklyArr.map(i => getWeekRangeFormatted(i.mondayDate)),
           datasets: [
-            { label: 'Valore Scarti (€)', data: dataScartoVal, backgroundColor: '#f43f5e', borderRadius: 4 },
-            { label: 'Valore Rilavorati (€)', data: dataRecuperoVal, backgroundColor: '#f59e0b', borderRadius: 4 }
+            { label: 'Scarti (€)', data: weeklyArr.map(i => i.scartoValore), backgroundColor: '#f43f5e', borderRadius: 4 },
+            { label: 'Rilavorati (€)', data: weeklyArr.map(i => i.recuperoValore), backgroundColor: '#f59e0b', borderRadius: 4 }
           ]
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { position: 'top' } },
-          scales: { y: { beginAtZero: true } }
-        }
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
       });
     }
 
     function renderEfficiencyAndShifts() {
       const aggMap = {};
       filteredData.forEach(d => {
-        if (!aggMap[d.codice]) {
-          aggMap[d.codice] = { codice: d.codice, totalPz: 0, totalOreDichiarate: 0, cycleSec: d.tempoCicloSec };
-        }
+        if (!aggMap[d.codice]) aggMap[d.codice] = { codice: d.codice, totalPz: 0, totalOreDichiarate: 0, cycleSec: d.tempoCicloSec };
         aggMap[d.codice].totalPz += (d.pezziBuoni + d.pezziScarto + d.pezziRecupero);
         aggMap[d.codice].totalOreDichiarate += d.oreTotali;
       });
 
-      const effArr = Object.values(aggMap).map(item => {
-        const expectedHours = (item.totalPz * item.cycleSec) / 3600;
-        const lossHours = item.totalOreDichiarate - expectedHours;
-        return { ...item, expectedHours: expectedHours, lossHours: lossHours };
-      });
+      const bottom6 = Object.values(aggMap).map(item => ({
+        ...item, expectedHours: (item.totalPz * item.cycleSec) / 3600, lossHours: item.totalOreDichiarate - ((item.totalPz * item.cycleSec) / 3600)
+      })).sort((a, b) => b.lossHours - a.lossHours).slice(0, 6);
 
-      const bottom6 = effArr.sort((a, b) => b.lossHours - a.lossHours).slice(0, 6);
-      const b6Tbody = document.getElementById('bottom6EffTableBody');
-      b6Tbody.innerHTML = '';
+      document.getElementById('bottom6EffTableBody').innerHTML = bottom6.length === 0 ? `<tr><td colspan="8" class="p-4 text-center text-slate-400">Nessun dato.</td></tr>` :
+        bottom6.map((item, index) => `
+          <tr class="hover:bg-slate-50 border-b border-slate-100">
+            <td class="p-2.5 text-center font-bold text-rose-600">${index + 1}°</td>
+            <td class="p-2.5 font-mono font-bold">${item.codice}</td>
+            <td class="p-2.5 truncate max-w-[100px]">${getArticleInfo(item.codice).name}</td>
+            <td class="p-2.5 text-right font-mono">${item.cycleSec}s</td>
+            <td class="p-2.5 text-right font-bold">${item.totalPz}</td>
+            <td class="p-2.5 text-right font-mono">${item.expectedHours.toFixed(1)}h</td>
+            <td class="p-2.5 text-right font-mono font-bold">${item.totalOreDichiarate.toFixed(1)}h</td>
+            <td class="p-2.5 text-right font-bold text-rose-600">+${item.lossHours.toFixed(1)}h</td>
+          </tr>
+        `).join('');
 
-      if (bottom6.length === 0) {
-        b6Tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-slate-400">Nessun dato disponibile.</td></tr>`;
-      } else {
-        bottom6.forEach((item, index) => {
-          const info = getArticleInfo(item.codice);
-          const nomeParticolare = info.name !== 'Non definito' ? `<span class="font-medium text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200/50">${info.name}</span>` : `<span class="text-slate-400 italic">Non definito</span>`;
-          
-          const lossBadge = item.lossHours > 0 ? 
-            `<span class="font-bold text-rose-600 bg-rose-50 px-2 py-1 rounded border border-rose-200">+${item.lossHours.toFixed(2)} h (${Math.round(item.lossHours * 60)} min)</span>` : 
-            `<span class="font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded border border-emerald-200">${item.lossHours.toFixed(2)} h</span>`;
-
-          b6Tbody.innerHTML += `
-            <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100">
-              <td class="p-3 text-center font-bold text-rose-600">${index + 1}°</td>
-              <td class="p-3 font-mono font-bold text-slate-900">${item.codice}</td>
-              <td class="p-3">${nomeParticolare}</td>
-              <td class="p-3 text-right font-mono">${item.cycleSec} s</td>
-              <td class="p-3 text-right font-bold text-slate-800">${item.totalPz.toLocaleString('it-IT')}</td>
-              <td class="p-3 text-right font-mono text-slate-600">${item.expectedHours.toFixed(2)} h</td>
-              <td class="p-3 text-right font-mono font-bold text-slate-900">${item.totalOreDichiarate.toFixed(2)} h</td>
-              <td class="p-3 text-right whitespace-nowrap">${lossBadge}</td>
+      document.getElementById('shiftGlobalTableBody').innerHTML = filteredData.length === 0 ? `<tr><td colspan="8" class="p-4 text-center text-slate-400">Nessun record.</td></tr>` :
+        filteredData.map(row => {
+          const totPz = row.pezziBuoni + row.pezziScarto + row.pezziRecupero;
+          const oreTeoriche = (totPz * row.tempoCicloSec) / 3600;
+          return `
+            <tr class="hover:bg-slate-50 border-b border-slate-100">
+              <td class="p-2.5">${row.data}</td>
+              <td class="p-2.5 text-slate-600">${row.turno}</td>
+              <td class="p-2.5 text-right font-bold">${row.pezziBuoni}</td>
+              <td class="p-2.5 text-right font-bold text-rose-600">${row.pezziScarto}</td>
+              <td class="p-2.5 text-right font-bold text-amber-600">${row.pezziRecupero}</td>
+              <td class="p-2.5 text-right font-mono font-bold">${row.oreTotali.toFixed(1)}h</td>
+              <td class="p-2.5 text-right font-mono text-slate-500">${oreTeoriche.toFixed(1)}h</td>
+              <td class="p-2.5 text-right font-mono text-rose-600 font-bold">+${Math.round((row.oreTotali - oreTeoriche) * 60)}m</td>
             </tr>
           `;
-        });
-      }
-
-      const shiftTbody = document.getElementById('shiftGlobalTableBody');
-      shiftTbody.innerHTML = '';
-
-      if (filteredData.length === 0) {
-        shiftTbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-slate-400">Nessun record trovato.</td></tr>`;
-      } else {
-        filteredData.forEach(row => {
-          const totalPz = row.pezziBuoni + row.pezziScarto + row.pezziRecupero;
-          const oreTeoriche = (totalPz * row.tempoCicloSec) / 3600;
-          const perditaMinuti = Math.round((row.oreTotali - oreTeoriche) * 60);
-
-          const perditaBadge = perditaMinuti > 0 ? 
-            `<span class="text-rose-600 font-bold bg-rose-50 px-1.5 py-0.5 rounded">+${perditaMinuti} min</span>` : 
-            `<span class="text-emerald-600 font-bold bg-emerald-50 px-1.5 py-0.5 rounded">${perditaMinuti} min</span>`;
-
-          shiftTbody.innerHTML += `
-            <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100">
-              <td class="p-3 font-medium">${row.data}</td>
-              <td class="p-3 text-slate-600">${row.turno}</td>
-              <td class="p-3 text-right font-bold text-slate-800">${row.pezziBuoni.toLocaleString('it-IT')}</td>
-              <td class="p-3 text-right font-bold text-rose-600">${row.pezziScarto}</td>
-              <td class="p-3 text-right font-bold text-amber-600">${row.pezziRecupero}</td>
-              <td class="p-3 text-right font-mono text-slate-900 font-bold">${row.oreTotali.toFixed(2)} h</td>
-              <td class="p-3 text-right font-mono text-slate-500">${oreTeoriche.toFixed(2)} h</td>
-              <td class="p-3 text-right font-mono whitespace-nowrap">${perditaBadge}</td>
-            </tr>
-          `;
-        });
-      }
+        }).join('');
     }
 
     function renderTop5Rankings() {
-      const sortType = document.getElementById('top5SortType') ? document.getElementById('top5SortType').value : 'value';
+      const sortType = document.getElementById('top5SortType').value;
       const aggMap = {};
       filteredData.forEach(d => {
-        if (!aggMap[d.codice]) {
-          aggMap[d.codice] = { codice: d.codice, scartoPz: 0, scartoValore: 0, recuperoPz: 0, recuperoValore: 0 };
-        }
+        if (!aggMap[d.codice]) aggMap[d.codice] = { codice: d.codice, scartoPz: 0, scartoValore: 0, recuperoPz: 0, recuperoValore: 0 };
         aggMap[d.codice].scartoPz += d.pezziScarto;
         aggMap[d.codice].scartoValore += d.valoreScarto;
         aggMap[d.codice].recuperoPz += d.pezziRecupero;
         aggMap[d.codice].recuperoValore += d.valoreRecupero;
       });
+      const items = Object.values(aggMap);
 
-      const itemsArr = Object.values(aggMap);
+      const topScarto = [...items].sort((a, b) => sortType === 'qty' ? b.scartoPz - a.scartoPz : b.scartoValore - a.scartoValore).slice(0, 5);
+      const topRecupero = [...items].sort((a, b) => sortType === 'qty' ? b.recuperoPz - a.recuperoPz : b.recuperoValore - a.recuperoValore).slice(0, 5);
 
-      const topScarto = [...itemsArr].sort((a, b) => {
-        if (sortType === 'qty') {
-          return b.scartoPz - a.scartoPz || b.scartoValore - a.scartoValore;
-        } else {
-          return b.scartoValore - a.scartoValore || b.scartoPz - a.scartoPz;
-        }
-      }).slice(0, 5);
+      document.getElementById('top5ScartoTableBody').innerHTML = topScarto.map((item, i) => `
+        <tr class="hover:bg-slate-50 border-b border-slate-100">
+          <td class="p-2.5 text-center font-bold">${['🥇','🥈','🥉'][i] || `${i+1}°`}</td>
+          <td class="p-2.5 font-mono font-bold">${item.codice}</td>
+          <td class="p-2.5 truncate max-w-[120px]">${getArticleInfo(item.codice).name}</td>
+          <td class="p-2.5 text-right font-mono">€${getArticleInfo(item.codice).price.toFixed(2)}</td>
+          <td class="p-2.5 text-right font-bold text-rose-600">${item.scartoPz}</td>
+          <td class="p-2.5 text-right font-mono font-bold text-rose-700">€ ${item.scartoValore.toFixed(2)}</td>
+        </tr>
+      `).join('');
 
-      const scartoTbody = document.getElementById('top5ScartoTableBody');
-      scartoTbody.innerHTML = '';
-      topScarto.forEach((item, index) => {
-        const info = getArticleInfo(item.codice);
-        const nomeParticolare = info.name !== 'Non definito' ? `<span class="font-medium text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200/50">${info.name}</span>` : `<span class="text-slate-400 italic">Non definito</span>`;
-        const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `${index + 1}°`;
-
-        scartoTbody.innerHTML += `
-          <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100">
-            <td class="p-3 text-center font-bold text-slate-600">${medal}</td>
-            <td class="p-3 font-mono font-bold text-slate-900">${item.codice}</td>
-            <td class="p-3">${nomeParticolare}</td>
-            <td class="p-3 text-right font-mono text-slate-600">€ ${info.price.toFixed(2)}</td>
-            <td class="p-3 text-right font-bold text-rose-600">${item.scartoPz.toLocaleString('it-IT')} pz</td>
-            <td class="p-3 text-right font-mono font-bold text-rose-700">€ ${item.scartoValore.toLocaleString('it-IT', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
-          </tr>
-        `;
-      });
-
-      const topRecupero = [...itemsArr].sort((a, b) => {
-        if (sortType === 'qty') {
-          return b.recuperoPz - a.recuperoPz || b.recuperoValore - a.recuperoValore;
-        } else {
-          return b.recuperoValore - a.recuperoValore || b.recuperoPz - a.recuperoPz;
-        }
-      }).slice(0, 5);
-
-      const recuperoTbody = document.getElementById('top5RecuperoTableBody');
-      recuperoTbody.innerHTML = '';
-      topRecupero.forEach((item, index) => {
-        const info = getArticleInfo(item.codice);
-        const nomeParticolare = info.name !== 'Non definito' ? `<span class="font-medium text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200/50">${info.name}</span>` : `<span class="text-slate-400 italic">Non definito</span>`;
-        const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `${index + 1}°`;
-
-        recuperoTbody.innerHTML += `
-          <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100">
-            <td class="p-3 text-center font-bold text-slate-600">${medal}</td>
-            <td class="p-3 font-mono font-bold text-slate-900">${item.codice}</td>
-            <td class="p-3">${nomeParticolare}</td>
-            <td class="p-3 text-right font-mono text-slate-600">€ ${info.price.toFixed(2)}</td>
-            <td class="p-3 text-right font-bold text-amber-600">${item.recuperoPz.toLocaleString('it-IT')} pz</td>
-            <td class="p-3 text-right font-mono font-bold text-amber-700">€ ${item.recuperoValore.toLocaleString('it-IT', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
-          </tr>
-        `;
-      });
+      document.getElementById('top5RecuperoTableBody').innerHTML = topRecupero.map((item, i) => `
+        <tr class="hover:bg-slate-50 border-b border-slate-100">
+          <td class="p-2.5 text-center font-bold">${['🥇','🥈','🥉'][i] || `${i+1}°`}</td>
+          <td class="p-2.5 font-mono font-bold">${item.codice}</td>
+          <td class="p-2.5 truncate max-w-[120px]">${getArticleInfo(item.codice).name}</td>
+          <td class="p-2.5 text-right font-mono">€${getArticleInfo(item.codice).price.toFixed(2)}</td>
+          <td class="p-2.5 text-right font-bold text-amber-600">${item.recuperoPz}</td>
+          <td class="p-2.5 text-right font-mono font-bold text-amber-700">€ ${item.recuperoValore.toFixed(2)}</td>
+        </tr>
+      `).join('');
     }
 
     function renderTable() {
       const tbody = document.getElementById('tableBody');
-      tbody.innerHTML = '';
-
-      if (filteredData.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="12" class="p-8 text-center text-slate-400">Nessun dato trovato.</td></tr>`;
-        document.getElementById('rowCountInfo').innerText = '0 record trovati';
-        return;
-      }
-
-      filteredData.forEach(row => {
-        const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-50/80 transition-colors border-b border-slate-100';
-
-        const nomeParticolare = row.nomeParticolare !== 'Non definito' ? 
-          `<span class="font-medium text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200/50">${row.nomeParticolare}</span>` : 
-          `<span class="text-slate-400 italic">Non definito</span>`;
-
-        const hasScarto = row.pezziScarto > 0;
-        const hasRecupero = row.pezziRecupero > 0;
-        const tipoBadge = row.macchinaTipo === 'PRESSA' ? '<span class="text-[9px] bg-blue-50 text-blue-700 px-1 rounded ml-1">PR</span>' : '<span class="text-[9px] bg-purple-50 text-purple-700 px-1 rounded ml-1">CNC</span>';
-
-        tr.innerHTML = `
-          <td class="p-3 font-medium whitespace-nowrap">${row.data}</td>
-          <td class="p-3 text-slate-600 whitespace-nowrap">${row.turno}</td>
-          <td class="p-3 text-slate-700 font-semibold whitespace-nowrap">${row.macchina} ${tipoBadge}</td>
-          <td class="p-3 font-mono font-bold text-slate-900 whitespace-nowrap">${row.codice}</td>
-          <td class="p-3 whitespace-nowrap">${nomeParticolare}</td>
-          <td class="p-3 text-right font-mono text-slate-600">€ ${row.prezzoUnitario.toFixed(2)}</td>
-          <td class="p-3 text-right font-bold text-slate-800">${row.pezziBuoni.toLocaleString('it-IT')}</td>
-          <td class="p-3 text-right font-bold ${hasScarto ? 'text-rose-600 bg-rose-50/50' : 'text-slate-400'}">${row.pezziScarto}</td>
-          <td class="p-3 text-right font-bold ${hasRecupero ? 'text-amber-600 bg-amber-50/50' : 'text-slate-400'}">${row.pezziRecupero}</td>
-          <td class="p-3 text-right font-mono ${hasScarto ? 'text-rose-700 bg-rose-50/50' : 'text-slate-400'}">€ ${row.valoreScarto.toFixed(2)}</td>
-          <td class="p-3 text-right font-mono ${hasRecupero ? 'text-amber-700 bg-amber-50/50' : 'text-slate-400'}">€ ${row.valoreRecupero.toFixed(2)}</td>
-          <td class="p-3 text-right font-mono text-slate-500">${row.oreTotali.toFixed(2)}</td>
-        `;
-
-        tbody.appendChild(tr);
-      });
-
-      document.getElementById('rowCountInfo').innerText = `Visualizzati ${filteredData.length} di ${parsedData.length} record`;
+      tbody.innerHTML = filteredData.length === 0 ? `<tr><td colspan="12" class="p-6 text-center text-slate-400">Nessun dato.</td></tr>` :
+        filteredData.map(row => `
+          <tr class="hover:bg-slate-50 border-b border-slate-100">
+            <td class="p-2.5 font-medium whitespace-nowrap">${row.data}</td>
+            <td class="p-2.5 text-slate-600 whitespace-nowrap">${row.turno}</td>
+            <td class="p-2.5 font-semibold whitespace-nowrap">${row.macchina}</td>
+            <td class="p-2.5 font-mono font-bold whitespace-nowrap">${row.codice}</td>
+            <td class="p-2.5 whitespace-nowrap">${row.nomeParticolare}</td>
+            <td class="p-2.5 text-right font-mono">€${row.prezzoUnitario.toFixed(2)}</td>
+            <td class="p-2.5 text-right font-bold">${row.pezziBuoni.toLocaleString('it-IT')}</td>
+            <td class="p-2.5 text-right font-bold ${row.pezziScarto>0?'text-rose-600 bg-rose-50':'text-slate-400'}">${row.pezziScarto}</td>
+            <td class="p-2.5 text-right font-bold ${row.pezziRecupero>0?'text-amber-600 bg-amber-50':'text-slate-400'}">${row.pezziRecupero}</td>
+            <td class="p-2.5 text-right font-mono ${row.pezziScarto>0?'text-rose-700 bg-rose-50':'text-slate-400'}">€${row.valoreScarto.toFixed(2)}</td>
+            <td class="p-2.5 text-right font-mono ${row.pezziRecupero>0?'text-amber-700 bg-amber-50':'text-slate-400'}">€${row.valoreRecupero.toFixed(2)}</td>
+            <td class="p-2.5 text-right font-mono">${row.oreTotali.toFixed(2)}</td>
+          </tr>
+        `).join('');
+      document.getElementById('rowCountInfo').innerText = `${filteredData.length} di ${parsedData.length} record`;
     }
 
     function renderCharts() {
-      const macchineMap = {};
+      const macchineMap = {}, turniMap = {};
       filteredData.forEach(d => {
         if (!macchineMap[d.macchina]) macchineMap[d.macchina] = { scarto: 0, recupero: 0 };
         macchineMap[d.macchina].scarto += d.pezziScarto;
         macchineMap[d.macchina].recupero += d.pezziRecupero;
-      });
 
-      const macchineLabels = Object.keys(macchineMap);
-      const scartoByMacchina = macchineLabels.map(m => macchineMap[m].scarto);
-      const recuperoByMacchina = macchineLabels.map(m => macchineMap[m].recupero);
-
-      const ctxMacchine = document.getElementById('chartMacchine').getContext('2d');
-      if (chartMacchineInstance) chartMacchineInstance.destroy();
-
-      chartMacchineInstance = new Chart(ctxMacchine, {
-        type: 'bar',
-        data: {
-          labels: macchineLabels.map(l => l.split(' - ')[1] || l),
-          datasets: [
-            { label: 'Scarto (Pezzi)', data: scartoByMacchina, backgroundColor: '#f43f5e', borderRadius: 4 },
-            { label: 'Rilavorato (Pezzi)', data: recuperoByMacchina, backgroundColor: '#f59e0b', borderRadius: 4 }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { position: 'top' } },
-          scales: { y: { beginAtZero: true } }
-        }
-      });
-
-      const turniMap = {};
-      filteredData.forEach(d => {
         if (!turniMap[d.turno]) turniMap[d.turno] = { scarto: 0, recupero: 0 };
         turniMap[d.turno].scarto += d.pezziScarto;
         turniMap[d.turno].recupero += d.pezziRecupero;
       });
 
-      const turniLabels = Object.keys(turniMap);
-      const scartoByTurno = turniLabels.map(t => turniMap[t].scarto);
-      const recuperoByTurno = turniLabels.map(t => turniMap[t].recupero);
+      const ctxMacchine = document.getElementById('chartMacchine').getContext('2d');
+      if (chartMacchineInstance) chartMacchineInstance.destroy();
+      chartMacchineInstance = new Chart(ctxMacchine, {
+        type: 'bar',
+        data: {
+          labels: Object.keys(macchineMap),
+          datasets: [
+            { label: 'Scarto', data: Object.values(macchineMap).map(i => i.scarto), backgroundColor: '#f43f5e', borderRadius: 4 },
+            { label: 'Rilavorato', data: Object.values(macchineMap).map(i => i.recupero), backgroundColor: '#f59e0b', borderRadius: 4 }
+          ]
+        },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+      });
 
       const ctxTurni = document.getElementById('chartTurni').getContext('2d');
       if (chartTurniInstance) chartTurniInstance.destroy();
-
       chartTurniInstance = new Chart(ctxTurni, {
         type: 'bar',
         data: {
-          labels: turniLabels,
+          labels: Object.keys(turniMap),
           datasets: [
-            { label: 'Scarto (Pezzi)', data: scartoByTurno, backgroundColor: '#e11d48', borderRadius: 4 },
-            { label: 'Rilavorato (Pezzi)', data: recuperoByTurno, backgroundColor: '#d97706', borderRadius: 4 }
+            { label: 'Scarto', data: Object.values(turniMap).map(i => i.scarto), backgroundColor: '#e11d48', borderRadius: 4 },
+            { label: 'Rilavorato', data: Object.values(turniMap).map(i => i.recupero), backgroundColor: '#d97706', borderRadius: 4 }
           ]
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { position: 'top' } },
-          scales: { y: { beginAtZero: true } }
-        }
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
       });
-    }
-
-    function exportToCSV() {
-      if (filteredData.length === 0) {
-        alert("Nessun dato da esportare!");
-        return;
-      }
-
-      let csvContent = "Data;Turno;Macchina;Tipo;Codice Articolo;Nome Particolare;Prezzo Unitario (€);Pezzi Buoni;Pezzi Scarto;Pezzi Rilavorati;Valore Scarto (€);Valore Rilavorato (€);Ore Dichiarate (h)\n";
-
-      filteredData.forEach(row => {
-        const line = [
-          row.data,
-          row.turno,
-          `"${row.macchina}"`,
-          row.macchinaTipo,
-          `"${row.codice}"`,
-          `"${row.nomeParticolare}"`,
-          row.prezzoUnitario.toString().replace('.', ','),
-          row.pezziBuoni,
-          row.pezziScarto,
-          row.pezziRecupero,
-          row.valoreScarto.toString().replace('.', ','),
-          row.valoreRecupero.toString().replace('.', ','),
-          row.oreTotali.toString().replace('.', ',')
-        ].join(';');
-        csvContent += line + "\n";
-      });
-
-      const blob = new Blob(["\ufeff" + csvContent], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.setAttribute("href", url);
-      link.setAttribute("download", `Export_Produzione_${new Date().toISOString().slice(0,10)}.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-
-    function saveGlobalJSON() {
-      const globalData = {
-        appVersion: "1.6",
-        exportDate: new Date().toISOString(),
-        rawProductionData: rawProductionData,
-        anagraficaMap: anagraficaMap,
-        lastLoadedDbaRaw: lastLoadedDbaRaw
-      };
-
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(globalData, null, 2));
-      const downloadAnchor = document.createElement('a');
-      downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", `backup_globale_produzione_dba_${new Date().toISOString().slice(0,10)}.json`);
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      downloadAnchor.remove();
     }
 
     function handleGlobalFile(e) {
       const file = e.target.files[0];
       if (!file) return;
-
       const reader = new FileReader();
       reader.onload = function(event) {
         try {
@@ -1463,26 +1066,16 @@
             rawProductionData = parsed.rawProductionData;
             anagraficaMap = parsed.anagraficaMap || {};
             lastLoadedDbaRaw = parsed.lastLoadedDbaRaw || null;
-
-            const dbaCount = Object.keys(anagraficaMap).length;
-            if (dbaCount > 0) {
-              document.getElementById('anagraficaInfo').innerText = `${dbaCount} articoli caricati da backup globale`;
+            if (Object.keys(anagraficaMap).length > 0) {
+              document.getElementById('anagraficaInfo').innerText = `${Object.keys(anagraficaMap).length} articoli caricati`;
               document.getElementById('anagraficaStatus').classList.remove('hidden');
-            } else {
-              document.getElementById('anagraficaStatus').classList.add('hidden');
             }
-
             parsedData = processRawData(rawProductionData);
             populateFilterOptions();
             applyFilters();
-            alert("Backup globale caricato con successo!");
-          } else {
-            alert("Formato file globale non valido.");
+            alert("Backup caricato con successo!");
           }
-        } catch (err) {
-          alert("Errore nel caricamento del file globale JSON.");
-          console.error(err);
-        }
+        } catch (err) { alert("Errore caricamento file."); }
       };
       reader.readAsText(file);
     }
@@ -1490,140 +1083,28 @@
     function handleAnagraficaFile(e) {
       const file = e.target.files[0];
       if (!file) return;
-
       const reader = new FileReader();
       reader.onload = function(event) {
         try {
           const content = event.target.result;
-          let items = [];
-
-          if (file.name.endsWith('.json') || content.trim().startsWith('{') || content.trim().startsWith('[')) {
-            const parsed = JSON.parse(content);
-            items = Array.isArray(parsed) ? parsed : Object.values(parsed);
-          } else {
-            const lines = content.split(/\r\n|\n/);
-            let sep = ';';
-            if (lines.length > 0 && lines[0].includes(',')) sep = ',';
-            if (lines.length > 0 && lines[0].includes('\t')) sep = '\t';
-
-            const headers = lines[0].split(sep).map(c => c.replace(/^["']|["']$/g, '').trim());
-            for (let i = 1; i < lines.length; i++) {
-              if (!lines[i].trim()) continue;
-              const cols = lines[i].split(sep).map(c => c.replace(/^["']|["']$/g, '').trim());
-              let obj = {};
-              headers.forEach((h, idx) => { obj[h || `col_${idx}`] = cols[idx] || ''; });
-              items.push(obj);
-            }
-          }
-
+          let items = JSON.parse(content);
+          items = Array.isArray(items) ? items : Object.values(items);
           lastLoadedDbaRaw = items;
           processDbaItems(items);
-
-        } catch (err) {
-          alert("Errore nella lettura del file DBA.");
-          console.error(err);
-        }
+        } catch (err) { alert("Errore lettura file DBA."); }
       };
       reader.readAsText(file);
     }
 
     function processDbaItems(items) {
       if (!items || items.length === 0) return;
-      const sample = items[0];
-      const keys = Object.keys(sample);
-
-      let bestCodeKey = keys.find(k => /^cod|^art|^mat|^id|^code/i.test(k)) || keys[0];
-      let bestNameKey = keys.find(k => /nom|des|text|testo|part|desc/i.test(k)) || (keys.length > 1 ? keys[1] : keys[0]);
-      
-      let bestPriceKey = keys.find(k => /^prezzo|^valore|^costo|^listino|^price/i.test(k));
-      if (!bestPriceKey) {
-        bestPriceKey = keys.find(k => {
-          const val = parseNum(sample[k]);
-          return val > 0 && val < 50000 && !k.toLowerCase().includes('disegno') && !k.toLowerCase().includes('cod');
-        }) || keys[1];
-      }
-
-      let bestCycleKey = keys.find(k => /tempo|ciclo|sec|macchina|secondi|cycle/i.test(k)) || keys[keys.length - 1];
-
+      const keys = Object.keys(items[0]);
       anagraficaMap = {};
-      let count = 0;
-
       items.forEach(item => {
-        if (!item || typeof item !== 'object') return;
-        const code = item[bestCodeKey];
-        const name = item[bestNameKey];
-        const price = item[bestPriceKey];
-        const cycle = item[bestCycleKey];
-
-        if (code !== undefined) {
-          const cStr = code.toString().trim();
-          const nStr = name !== undefined ? name.toString().trim() : 'Articolo';
-          const pVal = parseNum(price);
-          const cVal = parseNum(cycle);
-          if (cStr) {
-            anagraficaMap[cStr] = { name: nStr, price: pVal, cycleTime: cVal };
-            count++;
-          }
-        }
+        const code = item[keys[0]];
+        if (code) anagraficaMap[code.toString().trim()] = { name: item[keys[1]] || 'Articolo', price: parseNum(item[keys[2]]), cycleTime: parseNum(item[keys[3]]) };
       });
-
-      showMapperOptions(keys, items, bestCodeKey, bestNameKey, bestPriceKey, bestCycleKey);
-
-      document.getElementById('anagraficaInfo').innerText = `${count} articoli caricati (Verifica Mappatura se necessario)`;
-      document.getElementById('anagraficaStatus').classList.remove('hidden');
-      parsedData = processRawData(rawProductionData);
-      populateFilterOptions();
-      applyFilters();
-    }
-
-    function showMapperOptions(keys, items, defCode, defName, defPrice, defCycle) {
-      const selCode = document.getElementById('mapColCode');
-      const selName = document.getElementById('mapColName');
-      const selPrice = document.getElementById('mapColPrice');
-      const selCycle = document.getElementById('mapColCycle');
-      
-      const optionsHtml = keys.map(k => `<option value="${k}">${k} (Es: ${items[0][k]})</option>`).join('');
-      selCode.innerHTML = optionsHtml;
-      selName.innerHTML = optionsHtml;
-      selPrice.innerHTML = optionsHtml;
-      selCycle.innerHTML = optionsHtml;
-      
-      if (defCode) selCode.value = defCode;
-      if (defName) selName.value = defName;
-      if (defPrice) selPrice.value = defPrice;
-      if (defCycle) selCycle.value = defCycle;
-    }
-
-    function applyManualMapping() {
-      if (!lastLoadedDbaRaw) return;
-      const codeKey = document.getElementById('mapColCode').value;
-      const nameKey = document.getElementById('mapColName').value;
-      const priceKey = document.getElementById('mapColPrice').value;
-      const cycleKey = document.getElementById('mapColCycle').value;
-
-      anagraficaMap = {};
-      let count = 0;
-
-      lastLoadedDbaRaw.forEach(item => {
-        const code = item[codeKey];
-        const name = item[nameKey];
-        const price = item[priceKey];
-        const cycle = item[cycleKey];
-
-        if (code !== undefined) {
-          const cStr = code.toString().trim();
-          const nStr = name !== undefined ? name.toString().trim() : 'Articolo';
-          const pVal = parseNum(price);
-          const cVal = parseNum(cycle);
-          if (cStr) {
-            anagraficaMap[cStr] = { name: nStr, price: pVal, cycleTime: cVal };
-            count++;
-          }
-        }
-      });
-
-      document.getElementById('dbaMapperSection').classList.add('hidden');
-      document.getElementById('anagraficaInfo').innerText = `${count} articoli abbinati correttamente con mappatura manuale`;
+      document.getElementById('anagraficaInfo').innerText = `${Object.keys(anagraficaMap).length} articoli associati`;
       document.getElementById('anagraficaStatus').classList.remove('hidden');
       parsedData = processRawData(rawProductionData);
       populateFilterOptions();
@@ -1634,37 +1115,14 @@
       anagraficaMap = {};
       lastLoadedDbaRaw = null;
       document.getElementById('anagraficaStatus').classList.add('hidden');
-      document.getElementById('dbaMapperSection').classList.add('hidden');
-      document.getElementById('anagraficaFileInput').value = '';
       parsedData = processRawData(rawProductionData);
       populateFilterOptions();
       applyFilters();
     }
 
-    function handleProductionFile(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        try {
-          const parsed = JSON.parse(event.target.result);
-          rawProductionData = parsed;
-          parsedData = processRawData(rawProductionData);
-          populateFilterOptions();
-          applyFilters();
-        } catch (err) {
-          alert("Errore nel caricamento del file JSON di produzione.");
-          console.error(err);
-        }
-      };
-      reader.readAsText(file);
-    }
-
     function setupEventListeners() {
-      const setupDropdownToggle = (btnId, contentId) => {
-        const btn = document.getElementById(btnId);
-        const content = document.getElementById(contentId);
+      const toggleDropdown = (btnId, contentId) => {
+        const btn = document.getElementById(btnId), content = document.getElementById(contentId);
         btn.addEventListener('click', (e) => {
           e.stopPropagation();
           ['dropdownDataContent', 'dropdownTurnoContent', 'dropdownMacchinaContent', 'dropdownComponentiContent', 'dropdownWeeklyContent'].forEach(id => {
@@ -1674,66 +1132,33 @@
         });
         content.addEventListener('click', (e) => e.stopPropagation());
       };
-
-      setupDropdownToggle('dropdownDataBtn', 'dropdownDataContent');
-      setupDropdownToggle('dropdownTurnoBtn', 'dropdownTurnoContent');
-      setupDropdownToggle('dropdownMacchinaBtn', 'dropdownMacchinaContent');
-      setupDropdownToggle('dropdownComponentiBtn', 'dropdownComponentiContent');
-      setupDropdownToggle('dropdownWeeklyBtn', 'dropdownWeeklyContent');
+      toggleDropdown('dropdownDataBtn', 'dropdownDataContent');
+      toggleDropdown('dropdownTurnoBtn', 'dropdownTurnoContent');
+      toggleDropdown('dropdownMacchinaBtn', 'dropdownMacchinaContent');
+      toggleDropdown('dropdownComponentiBtn', 'dropdownComponentiContent');
+      toggleDropdown('dropdownWeeklyBtn', 'dropdownWeeklyContent');
 
       window.addEventListener('click', () => {
-        document.getElementById('dropdownDataContent').classList.add('hidden');
-        document.getElementById('dropdownTurnoContent').classList.add('hidden');
-        document.getElementById('dropdownMacchinaContent').classList.add('hidden');
-        document.getElementById('dropdownComponentiContent').classList.add('hidden');
-        document.getElementById('dropdownWeeklyContent').classList.add('hidden');
+        ['dropdownDataContent', 'dropdownTurnoContent', 'dropdownMacchinaContent', 'dropdownComponentiContent', 'dropdownWeeklyContent'].forEach(id => document.getElementById(id).classList.add('hidden'));
       });
 
-      document.getElementById('saveGlobalJsonBtn').addEventListener('click', saveGlobalJSON);
+      document.getElementById('saveGlobalJsonBtn').addEventListener('click', () => {
+        const blob = new Blob([JSON.stringify({ rawProductionData, anagraficaMap }, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `backup_${new Date().toISOString().slice(0,10)}.json`; a.click();
+      });
       document.getElementById('globalFileInput').addEventListener('change', handleGlobalFile);
-
+      document.getElementById('anagraficaFileInput').addEventListener('change', handleAnagraficaFile);
       document.getElementById('clearFiltersBtn').addEventListener('click', () => {
         document.getElementById('data_all').checked = true;
-        document.querySelectorAll('input[name="data_cb"]').forEach(cb => cb.checked = false);
-        updateDropdownLabel('data');
-
         document.getElementById('turno_all').checked = true;
-        document.querySelectorAll('input[name="turno_cb"]').forEach(cb => cb.checked = false);
-        updateDropdownLabel('turno');
-        
         document.getElementById('macchina_all').checked = true;
-        document.querySelectorAll('input[name="macchina_cb"]').forEach(cb => cb.checked = false);
-        updateDropdownLabel('macchina');
-
         document.getElementById('comp_all').checked = true;
-        document.querySelectorAll('input[name="comp_cb"]').forEach(cb => cb.checked = false);
-        updateDropdownLabel('componenti');
-
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = cb.id.includes('all'));
         applyFilters();
       });
-
-      document.getElementById('jsonFileInput').addEventListener('change', handleProductionFile);
-      document.getElementById('anagraficaFileInput').addEventListener('change', handleAnagraficaFile);
-
-      document.getElementById('resetDataBtn').addEventListener('click', () => {
-        if (confirm("Vuoi davvero ripristinare i dati iniziali di fabbrica?")) {
-          rawProductionData = { ...initialRawJson };
-          anagraficaMap = {};
-          lastLoadedDbaRaw = null;
-          document.getElementById('anagraficaStatus').classList.add('hidden');
-          document.getElementById('dbaMapperSection').classList.add('hidden');
-          parsedData = processRawData(rawProductionData);
-          populateFilterOptions();
-          applyFilters();
-        }
-      });
-
-      document.getElementById('exportCsvBtn').addEventListener('click', exportToCSV);
     }
 
-    window.onload = function() {
-      init();
-    };
+    window.onload = init;
   </script>
 </body>
 </html>
