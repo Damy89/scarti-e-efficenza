@@ -64,9 +64,16 @@
         <!-- Pulsante Caricamento Globale -->
         <label for="globalFileInput" class="cursor-pointer bg-brand-700 hover:bg-brand-600 text-white text-xs font-semibold py-2 px-3 rounded-lg transition shadow-sm flex items-center space-x-1.5 whitespace-nowrap" title="Carica Backup Globale">
           <i class="fa-solid fa-folder-open text-amber-300"></i>
-          <span>Carica</span>
+          <span>Carica Backup</span>
         </label>
         <input type="file" id="globalFileInput" accept=".json" class="hidden">
+
+        <!-- Pulsante Caricamento Singolo Produzione (JSON Prod) -->
+        <label for="jsonFileInput" class="cursor-pointer bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium py-2 px-3 rounded-lg border border-slate-700 transition flex items-center space-x-1.5 whitespace-nowrap" title="Carica file JSON Produzione">
+          <i class="fa-solid fa-file-import text-brand-400"></i>
+          <span>JSON Prod</span>
+        </label>
+        <input type="file" id="jsonFileInput" accept=".json" class="hidden">
 
         <!-- Pulsante DBA -->
         <label for="anagraficaFileInput" class="cursor-pointer bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium py-2 px-3 rounded-lg border border-slate-700 transition flex items-center space-x-1.5 whitespace-nowrap" title="Carica DBA">
@@ -223,7 +230,7 @@
         </div>
       </section>
 
-      <!-- Key Metrics Cards - Stacked or Grid 2 cols on Mobile -->
+      <!-- Key Metrics Cards -->
       <section class="grid grid-cols-2 lg:grid-cols-5 gap-3">
         <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-3 flex flex-col justify-between">
           <div class="flex justify-between items-start">
@@ -530,7 +537,7 @@
     </div>
   </footer>
 
-  <!-- Application Logic (Identical & fully compatible) -->
+  <!-- Application Logic -->
   <script>
     const initialRawJson = {
       "0": { "col_0": "1 ott 2026", "col_1": "Primo Turno", "col_2": "PR30001 - PRESSA 3000", "col_3": "341874", "col_4": "56,00", "col_5": "2,00", "col_6": "2,00", "col_10": "7,00" },
@@ -1080,6 +1087,23 @@
       reader.readAsText(file);
     }
 
+    function handleProductionFile(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        try {
+          const parsed = JSON.parse(event.target.result);
+          rawProductionData = parsed;
+          parsedData = processRawData(rawProductionData);
+          populateFilterOptions();
+          applyFilters();
+          alert("File di produzione caricato con successo!");
+        } catch (err) { alert("Errore nel parsing del file JSON di produzione."); }
+      };
+      reader.readAsText(file);
+    }
+
     function handleAnagraficaFile(e) {
       const file = e.target.files[0];
       if (!file) return;
@@ -1147,6 +1171,7 @@
         const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `backup_${new Date().toISOString().slice(0,10)}.json`; a.click();
       });
       document.getElementById('globalFileInput').addEventListener('change', handleGlobalFile);
+      document.getElementById('jsonFileInput').addEventListener('change', handleProductionFile);
       document.getElementById('anagraficaFileInput').addEventListener('change', handleAnagraficaFile);
       document.getElementById('clearFiltersBtn').addEventListener('click', () => {
         document.getElementById('data_all').checked = true;
